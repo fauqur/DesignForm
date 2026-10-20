@@ -23,6 +23,8 @@
         <div class="brand">Random Remi Designs</div>
         <h1>Tell us about the website you want</h1>
         <p class="lede">Answer in your own words. No design or tech knowledge needed. Skip anything you like, and the designer will decide those parts for you.</p>
+        <!-- Only shown on the printed / PDF copy (filled in by script.js) -->
+        <p class="print-meta" id="print-meta"></p>
       </div>
 
       <div class="themesw">
@@ -652,11 +654,18 @@
         <!-- ================= Send panel ================= -->
         <section class="send" id="send" aria-labelledby="send-h">
           <h2 id="send-h">Send your answers</h2>
-          <p>Download your answers as a file and send it to Random Remi Designs along with any logo or photo files. You can also copy them into an email.</p>
+          <p>Save a copy of your answers and send it to Random Remi Designs along with any logo or photo files.</p>
           <div class="fees" id="fees"></div>
+
+          <div class="btns" role="group" aria-label="Save a copy">
+            <button type="button" class="btn accent" id="btn-pdf">Save as PDF</button>
+            <button type="button" class="btn" id="btn-docx">Download Word (.docx)</button>
+            <button type="button" class="btn" id="btn-txt">Download text (.txt)</button>
+          </div>
+          <p class="send-note" id="pdf-note"></p>
+
           <div class="btns">
-            <button type="button" class="btn accent" id="btn-dl" hidden>Download my answers</button>
-            <button type="button" class="btn" id="btn-copy">Copy my answers</button>
+            <button type="button" class="btn ghost" id="btn-copy">Copy my answers</button>
             <button type="button" class="btn ghost" id="btn-show">Show my answers</button>
             <span class="confirm" id="reset-wrap"><button type="button" class="btn ghost" id="btn-reset">Clear all answers</button></span>
           </div>

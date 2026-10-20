@@ -14,9 +14,11 @@
     9. Reading answers and building the summary
    10. Progress and section index
    11. Saving drafts in the browser
-   12. Send panel (download, copy, show, clear)
-   13. Form theme switcher (Light / Dark / Noir)
-   14. Start-up
+   12. Send panel (save a copy, copy, show, clear)
+   13. Word (.docx) file, built in the browser
+   14. Printed copy and PDF
+   15. Form theme switcher (Light / Dark / Noir)
+   16. Start-up
 
    Loaded with "defer", so the page's HTML is ready when this runs.
    ========================================================================== */
@@ -35,6 +37,7 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   const FEE_TAG = '<span class="tag fee">+ fee</span>';
+  const todayLong = () => new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
   const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 
@@ -211,6 +214,12 @@
     ["Free to use", "Open source, royalty-free", "Fonts, images or icons you can use without paying (check each one's rules)"],
     ["Paid to use", "Licensed, premium, pro", "Materials you pay for the right to use"]
   ];
+
+  // PDF libraries, only loaded inside the Claude-hosted version, where the
+  // browser's print window is blocked. Both are free and open source.
+  const HTML2CANVAS_URL = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+  const JSPDF_URL = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+  const PDF_PAGE = { format: "letter", marginMm: 12, scale: 2 };
 
   // Browser storage keys
   const DRAFT_KEY = "rrd-website-questionnaire-v1";
@@ -889,8 +898,7 @@
   // Plain-text summary used for Show, Copy and Download
   function buildSummary() {
     const lines = [];
-    const today = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
-    lines.push("WEBSITE DESIGN QUESTIONNAIRE", "Random Remi Designs", "Prepared " + today, "");
+    lines.push("WEBSITE DESIGN QUESTIONNAIRE", "Random Remi Designs", "Prepared " + todayLong(), "Form filled out in: " + themeLabel() + " theme", "");
 
     const fees = feeItems();
     if (fees.length) {
@@ -1055,16 +1063,21 @@
      ------------------------------------------------------------------------ */
   const setStatus = (msg) => { $("#status").textContent = msg; };
 
-  function fileName() {
+  // True inside the Claude-hosted version, which has its own download system
+  const inClaude = () => !!(window.claude && typeof window.claude.use === "function");
+
+  // e.g. "website-questionnaire-moon-bakery"
+  function fileBase() {
     const slug = ($("#a-biz").value || $("#a-name").value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    return `website-questionnaire${slug ? "-" + slug : ""}.txt`;
+    return `website-questionnaire${slug ? "-" + slug : ""}`;
   }
 
-  // Normal browsers: save a .txt file with a temporary link
+  // Normal browsers: save a file through a temporary link
   const browserDownload = {
     save: async ({ filename, data }) => {
+      const blob = data instanceof Blob ? data : new Blob([data], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([data], { type: "text/plain;charset=utf-8" }));
+      a.href = URL.createObjectURL(blob);
       a.download = filename;
       document.body.appendChild(a);
       a.click();
@@ -1074,19 +1087,36 @@
     }
   };
   let downloader = null;
+  const FILE_BUTTONS = ["#btn-pdf", "#btn-docx", "#btn-txt"];
 
-  function setupDownload() {
+  function setupDownloads() {
+    if (inClaude()) {
+      FILE_BUTTONS.forEach((b) => { $(b).hidden = true; });
+      $("#pdf-note").textContent = "The PDF is a full copy of the form with your answers. It can take a little while to build, especially on a phone.";
+      window.claude.use("downloads")
+        .then((d) => {
+          downloader = d;
+          FILE_BUTTONS.forEach((b) => { $(b).hidden = !d; });
+          if (!d) $("#pdf-note").textContent = "Saving files isn't available here. Use Copy my answers instead.";
+        })
+        .catch(() => {});
+    } else {
+      downloader = browserDownload;
+      $("#pdf-note").textContent = "PDF: a print window opens. Choose “Save as PDF” as the printer. If colors are missing, turn on “Background graphics” in the print settings.";
+    }
+  }
+
+  async function saveFile(filename, data, doneMessage) {
+    if (!downloader) return;
     try {
-      // Inside a Claude artifact, downloads go through its own "downloads" capability
-      if (window.claude && typeof window.claude.use === "function") {
-        window.claude.use("downloads")
-          .then((d) => { downloader = d; $("#btn-dl").hidden = !d; })
-          .catch(() => {});
-      } else {
-        downloader = browserDownload;
-        $("#btn-dl").hidden = false;
-      }
-    } catch (e) { /* leave the download button hidden */ }
+      await downloader.save({ filename, data });
+      setStatus(doneMessage);
+    } catch (e) {
+      const code = e && e.code;
+      if (code === "declined") setStatus("Download cancelled.");
+      else if (code === "rate_limited") setStatus("A download is already waiting for your OK.");
+      else setStatus("That file couldn't be saved here. Use Copy my answers instead.");
+    }
   }
 
   function resetButton() {
@@ -1116,11 +1146,22 @@
     $$(".style-hint").forEach((h) => { h.textContent = ""; });
     $("#summary").hidden = true;
     resetButton();
+    growAll();
     onChange();
     setStatus("All answers cleared.");
   }
 
   function bindSendPanel() {
+    $("#btn-pdf").addEventListener("click", savePdf);
+
+    $("#btn-docx").addEventListener("click", () => {
+      saveFile(fileBase() + ".docx", buildDocx(), "Word file saved. Send it to Random Remi Designs with any logo or photo files.");
+    });
+
+    $("#btn-txt").addEventListener("click", () => {
+      saveFile(fileBase() + ".txt", buildSummary(), "Text file saved. Send it to Random Remi Designs with any logo or photo files.");
+    });
+
     $("#btn-show").addEventListener("click", () => {
       const box = $("#summary");
       box.value = buildSummary();
@@ -1147,35 +1188,375 @@
       }
     });
 
-    $("#btn-dl").addEventListener("click", async () => {
-      if (!downloader) return;
-      try {
-        await downloader.save({ filename: fileName(), data: buildSummary() });
-        setStatus("Downloaded. Send the file to Random Remi Designs with any logo or photo files.");
-      } catch (e) {
-        const code = e && e.code;
-        if (code === "declined") setStatus("Download cancelled.");
-        else if (code === "rate_limited") setStatus("A download is already waiting for your OK.");
-        else {
-          setStatus("Downloading isn't available here. Use Copy my answers instead.");
-          $("#btn-dl").hidden = true;
-        }
-      }
-    });
-
     $("#btn-reset").addEventListener("click", askReset);
-    setupDownload();
+    setupDownloads();
   }
 
 
   /* ------------------------------------------------------------------------
-     13. Form theme switcher (Light / Dark / Noir; "auto" follows the device)
+     13. Word (.docx) file
+     A clean document: every question by section, its answer, or "n/a".
+     A .docx is a zip of XML files; this builds one without any library.
      ------------------------------------------------------------------------ */
+
+  // [text, paragraph style] pairs, in reading order
+  function wordContent() {
+    const P = [];
+    P.push(["Website Design Questionnaire", "Title"]);
+    P.push(["Random Remi Designs", "Subtitle"]);
+    P.push(["Prepared: " + todayLong(), "Meta"]);
+    P.push(["Form filled out in: " + themeLabel() + " theme", "Meta"]);
+
+    P.push(["Add-ons requested (additional fee, quoted separately)", "Heading2"]);
+    const fees = feeItems();
+    if (fees.length) fees.forEach((f) => P.push(["• " + f, ""]));
+    else P.push(["n/a", "NA"]);
+
+    $$("#form section.sec").forEach((sec) => {
+      P.push([sec.dataset.title, "Heading1"]);
+
+      const dc = $(".dc-box", sec);
+      if (dc && dc.checked) P.push(["Designer's choice: the designer decides this section.", "Note"]);
+
+      $$(".q", sec).forEach((q) => {
+        P.push([q.dataset.label, "Question"]);
+        const answers = readQuestion(q);
+        if (answers.length) answers.forEach((a) => P.push([a.replace(/\n+$/, ""), ""]));
+        else P.push(["n/a", "NA"]);
+      });
+
+      // Stand-alone tick boxes outside a question
+      $$(".sec-body > .opts input", sec).forEach((el) => {
+        P.push([el.value, "Question"]);
+        P.push(el.checked ? ["Yes", ""] : ["n/a", "NA"]);
+      });
+    });
+    return P;
+  }
+
+  const xmlEscape = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  function docxParagraph([text, style]) {
+    const runs = String(text).split("\n").map((line, i) =>
+      (i ? "<w:r><w:br/></w:r>" : "") + `<w:r><w:t xml:space="preserve">${xmlEscape(line)}</w:t></w:r>`
+    ).join("");
+    const props = style ? `<w:pPr><w:pStyle w:val="${style}"/></w:pPr>` : "";
+    return `<w:p>${props}${runs}</w:p>`;
+  }
+
+  // Paragraph styles used by the Word file
+  function docxStyles() {
+    const style = (id, name, ppr, rpr) =>
+      `<w:style w:type="paragraph" w:styleId="${id}"><w:name w:val="${name}"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr>${ppr}</w:pPr><w:rPr>${rpr}</w:rPr></w:style>`;
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">' +
+      '<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/><w:sz w:val="22"/></w:rPr></w:rPrDefault></w:docDefaults>' +
+      '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/><w:pPr><w:spacing w:after="80"/></w:pPr></w:style>' +
+      style("Title", "Title", '<w:spacing w:after="40"/>', '<w:b/><w:sz w:val="40"/>') +
+      style("Subtitle", "Subtitle", '<w:spacing w:after="160"/>', '<w:color w:val="C9431C"/><w:sz w:val="26"/>') +
+      style("Meta", "Meta", '<w:spacing w:after="40"/>', '<w:color w:val="585E6E"/><w:sz w:val="20"/>') +
+      style("Heading1", "heading 1", '<w:keepNext/><w:pBdr><w:bottom w:val="single" w:sz="6" w:space="4" w:color="C9431C"/></w:pBdr><w:spacing w:before="360" w:after="120"/><w:outlineLvl w:val="0"/>', '<w:b/><w:color w:val="C9431C"/><w:sz w:val="30"/>') +
+      style("Heading2", "heading 2", '<w:keepNext/><w:spacing w:before="240" w:after="80"/><w:outlineLvl w:val="1"/>', '<w:b/><w:sz w:val="24"/>') +
+      style("Question", "Question", '<w:keepNext/><w:spacing w:before="160" w:after="40"/>', '<w:b/>') +
+      style("NA", "Not answered", "", '<w:i/><w:color w:val="8A8F9C"/>') +
+      style("Note", "Note", "", '<w:i/><w:color w:val="C9431C"/>') +
+      "</w:styles>";
+  }
+
+  function buildDocx() {
+    const body = wordContent().map(docxParagraph).join("");
+    const files = [
+      { name: "[Content_Types].xml", text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>' },
+      { name: "_rels/.rels", text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>' },
+      { name: "word/_rels/document.xml.rels", text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>' },
+      { name: "word/styles.xml", text: docxStyles() },
+      { name: "word/document.xml", text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1080" w:right="1080" w:bottom="1080" w:left="1080" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>' }
+    ];
+    return zipFiles(files, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+  }
+
+  // Minimal zip writer (files stored uncompressed, which Word reads fine)
+  const CRC_TABLE = (() => {
+    const t = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+      t[n] = c >>> 0;
+    }
+    return t;
+  })();
+
+  function crc32(bytes) {
+    let c = 0xFFFFFFFF;
+    for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+
+  function zipFiles(files, mimeType) {
+    const enc = new TextEncoder();
+    const parts = [];
+    const directory = [];
+    let offset = 0;
+    const DOS_DATE = 0x21; // 1 Jan 1980; the date isn't used
+
+    files.forEach(({ name, text }) => {
+      const nameBytes = enc.encode(name);
+      const data = enc.encode(text);
+      const crc = crc32(data);
+
+      const local = new DataView(new ArrayBuffer(30));
+      local.setUint32(0, 0x04034b50, true);
+      local.setUint16(4, 20, true);
+      local.setUint16(12, DOS_DATE, true);
+      local.setUint32(14, crc, true);
+      local.setUint32(18, data.length, true);
+      local.setUint32(22, data.length, true);
+      local.setUint16(26, nameBytes.length, true);
+      parts.push(new Uint8Array(local.buffer), nameBytes, data);
+
+      const entry = new DataView(new ArrayBuffer(46));
+      entry.setUint32(0, 0x02014b50, true);
+      entry.setUint16(4, 20, true);
+      entry.setUint16(6, 20, true);
+      entry.setUint16(14, DOS_DATE, true);
+      entry.setUint32(16, crc, true);
+      entry.setUint32(20, data.length, true);
+      entry.setUint32(24, data.length, true);
+      entry.setUint16(28, nameBytes.length, true);
+      entry.setUint32(42, offset, true);
+      directory.push(new Uint8Array(entry.buffer), nameBytes);
+
+      offset += 30 + nameBytes.length + data.length;
+    });
+
+    const dirSize = directory.reduce((sum, b) => sum + b.length, 0);
+    const end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true);
+    end.setUint16(8, files.length, true);
+    end.setUint16(10, files.length, true);
+    end.setUint32(12, dirSize, true);
+    end.setUint32(16, offset, true);
+
+    return new Blob([...parts, ...directory, new Uint8Array(end.buffer)], { type: mimeType });
+  }
+
+
+  /* ------------------------------------------------------------------------
+     14. Printed copy and PDF
+     Before printing, every text field gets a box (.pv) under it holding its
+     full answer, and <html> gets .printing (see style.css section 23).
+     GitHub / normal browsers: the browser's print window ("Save as PDF").
+     Claude-hosted version: print is blocked, so the PDF is drawn in the page
+     with two free libraries, one section at a time.
+     ------------------------------------------------------------------------ */
+
+  // Text boxes grow to fit everything typed
+  function autoGrow(el) {
+    if (!el.offsetParent) return; // hidden: nothing to measure
+    el.style.height = "auto";
+    el.style.height = (el.scrollHeight + 2) + "px";
+  }
+  const growAll = () => $$("#form textarea").forEach(autoGrow);
+
+  function bindAutoGrow() {
+    document.addEventListener("input", (e) => {
+      if (e.target.matches("#form textarea")) autoGrow(e.target);
+    });
+    let resizeTimer = 0;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(growAll, 200);
+    });
+  }
+
+  let printPrepared = false;
+
+  function preparePrint() {
+    if (printPrepared) return;
+    printPrepared = true;
+    document.documentElement.classList.add("printing");
+    $("#print-meta").textContent = `Prepared ${todayLong()}  ·  Form filled out in: ${themeLabel()} theme`;
+
+    $$("#form input, #form select, #form textarea").forEach((el) => {
+      if (el.type === "checkbox" || el.type === "radio") {
+        // Mirror ticks into the markup so the PDF maker sees them
+        el.toggleAttribute("checked", el.checked);
+        return;
+      }
+      if (el.type === "range" || el.type === "button" || el.closest(".studio")) return;
+
+      const box = document.createElement("div");
+      box.className = "pv";
+      if (el.type === "color") {
+        box.classList.add("pv--swatch");
+        box.style.background = el.value;
+      } else {
+        const value = el.tagName === "SELECT"
+          ? (el.value ? el.options[el.selectedIndex].text : "")
+          : el.value.trim();
+        box.textContent = value;
+        if (el.tagName === "TEXTAREA") box.classList.add("pv--long");
+        if (!value) box.classList.add("pv--empty");
+      }
+      el.after(box);
+    });
+  }
+
+  function finishPrint() {
+    if (!printPrepared) return;
+    printPrepared = false;
+    $$(".pv").forEach((box) => box.remove());
+    $$("#form input[type=checkbox], #form input[type=radio]").forEach((el) => el.removeAttribute("checked"));
+    document.documentElement.classList.remove("printing");
+    growAll();
+  }
+
+  function bindPrinting() {
+    window.addEventListener("beforeprint", preparePrint);
+    window.addEventListener("afterprint", finishPrint);
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const tag = document.createElement("script");
+      tag.src = src;
+      tag.onload = resolve;
+      tag.onerror = () => reject(new Error("Couldn't load " + src));
+      document.head.appendChild(tag);
+    });
+  }
+
+  // The PDF maker draws SVG without the stylesheet, so copy the sketch colors onto each shape
+  function inlineSketchStyles(clonedDoc) {
+    const props = ["fill", "fill-opacity", "stroke", "stroke-opacity", "stroke-width", "stroke-dasharray", "stroke-linecap", "stroke-linejoin", "opacity"];
+    clonedDoc.querySelectorAll("svg.sk *").forEach((shape) => {
+      const cs = clonedDoc.defaultView.getComputedStyle(shape);
+      props.forEach((p) => shape.setAttribute(p, cs.getPropertyValue(p)));
+    });
+  }
+
+  // Safe places to start a new page inside a block (CSS px from its top)
+  function breakPoints(block) {
+    const top = block.getBoundingClientRect().top;
+    const parts = $$(".sec-head, .sec-intro, .handed-note, .sec-body > *, .rows > .row, .sizes > .size, .opts.list > .opt", block);
+    const points = parts.map((el) => Math.ceil(el.getBoundingClientRect().bottom - top));
+    points.push(block.offsetHeight);
+    return [...new Set(points)].sort((a, b) => a - b);
+  }
+
+  async function buildPdf() {
+    if (!window.html2canvas) await loadScript(HTML2CANVAS_URL);
+    if (!(window.jspdf && window.jspdf.jsPDF)) await loadScript(JSPDF_URL);
+
+    preparePrint();
+    try {
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+
+      const pdf = new window.jspdf.jsPDF({ unit: "mm", format: PDF_PAGE.format, orientation: "portrait" });
+      const margin = PDF_PAGE.marginMm;
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const contentW = pageW - margin * 2;
+      const bottom = pageH - margin;
+      let y = margin;
+
+      const blocks = [$(".top"), ...$$("#form section.sec")];
+      for (const block of blocks) {
+        const canvas = await window.html2canvas(block, {
+          scale: PDF_PAGE.scale,
+          backgroundColor: "#FFFFFF",
+          logging: false,
+          onclone: inlineSketchStyles
+        });
+        const cssW = block.offsetWidth;
+        const cssH = block.offsetHeight;
+        const mmPerPx = contentW / cssW;
+        const pxScale = canvas.width / cssW;
+        const breaks = breakPoints(block);
+
+        let start = 0;
+        while (start < cssH - 1) {
+          const room = (bottom - y) / mmPerPx;
+          let end;
+          if (cssH - start <= room) {
+            end = cssH;
+          } else {
+            const fits = breaks.filter((b) => b > start + 1 && b - start <= room);
+            if (fits.length) {
+              end = Math.max(...fits);
+            } else if (y > margin + 1) {
+              pdf.addPage();
+              y = margin;
+              continue;
+            } else {
+              end = start + room; // a single item taller than a page
+            }
+          }
+
+          const slice = document.createElement("canvas");
+          slice.width = canvas.width;
+          slice.height = Math.max(1, Math.round((end - start) * pxScale));
+          slice.getContext("2d").drawImage(canvas, 0, Math.round(start * pxScale), canvas.width, slice.height, 0, 0, canvas.width, slice.height);
+
+          const h = (end - start) * mmPerPx;
+          pdf.addImage(slice.toDataURL("image/jpeg", 0.9), "JPEG", margin, y, contentW, h);
+          y += h;
+          start = end;
+          if (start < cssH - 1) {
+            pdf.addPage();
+            y = margin;
+          }
+        }
+        y += 4; // gap between sections
+      }
+      return pdf.output("blob");
+    } finally {
+      finishPrint();
+    }
+  }
+
+  async function savePdf() {
+    if (!inClaude()) {
+      window.print();
+      return;
+    }
+    if (!downloader) return;
+
+    const button = $("#btn-pdf");
+    button.disabled = true;
+    setStatus("Building your PDF…");
+    try {
+      const blob = await buildPdf();
+      await saveFile(fileBase() + ".pdf", blob, "PDF saved. Send it to Random Remi Designs with any logo or photo files.");
+    } catch (e) {
+      setStatus("The PDF couldn't be made here. Try the Word or text download instead.");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+
+  /* ------------------------------------------------------------------------
+     15. Form theme switcher (Light / Dark / Noir; "auto" follows the device)
+     ------------------------------------------------------------------------ */
+  let currentTheme = "auto";
+
+  // How the theme is described on saved copies, so the designer sees the preference
+  function themeLabel() {
+    if (currentTheme === "auto") {
+      const dark = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
+      return `Auto (device set to ${dark ? "dark" : "light"})`;
+    }
+    return currentTheme[0].toUpperCase() + currentTheme.slice(1);
+  }
+
   function setTheme(theme) {
+    currentTheme = theme;
     const root = document.documentElement;
     root.classList.remove("t-light", "t-dark", "t-noir");
     if (theme !== "auto") root.classList.add("t-" + theme);
     $$(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === theme)));
+    requestAnimationFrame(growAll); // fonts differ between themes, so text boxes re-fit
     try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* storage unavailable */ }
   }
 
@@ -1188,7 +1569,7 @@
 
 
   /* ------------------------------------------------------------------------
-     14. Start-up
+     16. Start-up
      ------------------------------------------------------------------------ */
   bindThemeSwitcher();
   renderChoices();
@@ -1205,6 +1586,8 @@
   form.addEventListener("input", onChange);
   form.addEventListener("change", onChange);
   form.addEventListener("submit", (e) => e.preventDefault());
+  bindAutoGrow();
+  bindPrinting();
 
   if (!restoreDraft()) addDefaultRows();
   renderPalette();
@@ -1212,4 +1595,6 @@
   updateProgress();
   drawWheel();
   showPick();
+  growAll();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(growAll);
 })();

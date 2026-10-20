@@ -25,7 +25,8 @@
    20. Button-shape demos
    21. Send panel
    22. Glossary
-   23. Media queries (screen sizes largest to smallest, then user preferences)
+   23. Printed copy and PDF (applied while printing or building a PDF)
+   24. Media queries (screen sizes largest to smallest, then user preferences)
    ========================================================================== */
 
 
@@ -554,6 +555,13 @@ textarea.big {
   min-height: 200px;
 }
 
+/* Form text boxes grow with their text (script.js sets the height),
+   so nothing is ever hidden behind a scrollbar */
+#form textarea {
+  overflow: hidden;
+  resize: none;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -918,6 +926,7 @@ textarea.big {
 .block {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 12px;
   padding: 16px;
   border: 1px solid var(--line);
@@ -1363,6 +1372,12 @@ input[type="color"] {
   color: var(--accent-ink);
 }
 
+.send .send-note {
+  margin: -4px 0 18px;
+  font-size: 14px;
+  opacity: .75;
+}
+
 .send .status {
   min-height: 1.4em;
   margin: 0 0 10px;
@@ -1452,8 +1467,159 @@ input[type="color"] {
 }
 
 
+/* 23. Printed copy and PDF
+   script.js adds .printing to <html> just before printing or building a PDF,
+   adds a .pv box after every text field holding its full answer, and removes
+   both afterwards. Always printed light, whatever theme is on screen. */
+.print-meta,
+.pv {
+  display: none;
+}
+
+@page {
+  margin: 12mm;
+}
+
+html:root.printing {
+  --bg: #F6F7F9;
+  --surface: #FFFFFF;
+  --sunk: #EEF0F3;
+  --ink: #17191F;
+  --muted: #585E6E;
+  --line: #D6DAE1;
+  --accent: #C9431C;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #FBE8E0;
+  --fee: #7D5200;
+  --fee-soft: #FCEFD3;
+  --ok: #1C6E48;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+
+.printing * {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.printing body {
+  background: #FFFFFF;
+}
+
+.printing .shell {
+  max-width: 760px;
+  padding: 0;
+}
+
+.printing .layout {
+  display: block;
+}
+
+.printing h1 {
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+
+.printing .sec-head h2 {
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.printing .sk,
+.printing .mock {
+  filter: none;
+}
+
+/* Parts that only make sense on screen */
+.printing .toc,
+.printing .themesw,
+.printing .howto,
+.printing .studio,
+.printing .res,
+.printing .add,
+.printing .rm,
+.printing .prm,
+.printing .send,
+.printing .gloss,
+.printing .rows-head {
+  display: none;
+}
+
+.printing .print-meta {
+  display: block;
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: 14px;
+}
+
+.printing .sec {
+  margin-bottom: 14px;
+  padding: 22px;
+}
+
+.printing .sec.handed .sec-body {
+  opacity: 1;
+}
+
+/* Keep each question, option and row together on one page */
+.printing .sec-head,
+.printing .q,
+.printing .opt,
+.printing .row,
+.printing .block,
+.printing .pair,
+.printing .size {
+  break-inside: avoid;
+}
+
+.printing .sub-h {
+  break-after: avoid;
+}
+
+/* Real fields are swapped for boxes that show the full answer */
+.printing #form input[type="text"],
+.printing #form input[type="email"],
+.printing #form input[type="tel"],
+.printing #form input[type="url"],
+.printing #form input[type="number"],
+.printing #form input[type="date"],
+.printing #form input[type="color"],
+.printing #form select,
+.printing #form textarea {
+  display: none;
+}
+
+.printing .pv {
+  display: block;
+  min-width: 0;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--bg);
+  font-size: 14.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.printing .pv--long.pv--empty {
+  min-height: 70px;
+}
+
+.printing .pv--swatch {
+  width: 44px;
+  height: 42px;
+  min-height: 0;
+  padding: 0;
+}
+
+
 /* ==========================================================================
-   23. Media queries
+   24. Media queries
    Screen sizes first, from largest to smallest, then user preferences.
    ========================================================================== */
 
