@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Website Design Questionnaire</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Courier+Prime:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Limelight&display=swap">
+<style>
+/* Layout: studio intake sheet. Sticky section index on the left, one card per section on the right, a send-off panel at the end. */
+:root{
+  --bg:#F2F3F5; --surface:#FFFFFF; --sunk:#EAECF0; --ink:#17191F; --muted:#585E6E; --line:#D6DAE1;
+  --accent:#C9431C; --accent-ink:#FFFFFF; --accent-soft:#FBE8E0;
+  --fee:#7D5200; --fee-soft:#FCEFD3; --ok:#1C6E48;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1115; --surface:#181B21; --sunk:#13161B; --ink:#E7E9EE; --muted:#9BA2B2; --line:#2B2F38;
+    --accent:#FF7B4F; --accent-ink:#1A0C06; --accent-soft:#3A1E14;
+    --fee:#F0C46C; --fee-soft:#352A13; --ok:#62CF9A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1115; --surface:#181B21; --sunk:#13161B; --ink:#E7E9EE; --muted:#9BA2B2; --line:#2B2F38;
+  --accent:#FF7B4F; --accent-ink:#1A0C06; --accent-soft:#3A1E14;
+  --fee:#F0C46C; --fee-soft:#352A13; --ok:#62CF9A; color-scheme:dark;
+}
+/* The form's own theme switcher (a live demo of Light / Dark / Noir). These come last so they win. */
+:root.t-light{
+  --bg:#F2F3F5; --surface:#FFFFFF; --sunk:#EAECF0; --ink:#17191F; --muted:#585E6E; --line:#D6DAE1;
+  --accent:#C9431C; --accent-ink:#FFFFFF; --accent-soft:#FBE8E0;
+  --fee:#7D5200; --fee-soft:#FCEFD3; --ok:#1C6E48; color-scheme:light;
+}
+:root.t-dark{
+  --bg:#0F1115; --surface:#181B21; --sunk:#13161B; --ink:#E7E9EE; --muted:#9BA2B2; --line:#2B2F38;
+  --accent:#FF7B4F; --accent-ink:#1A0C06; --accent-soft:#3A1E14;
+  --fee:#F0C46C; --fee-soft:#352A13; --ok:#62CF9A; color-scheme:dark;
+}
+:root.t-noir{
+  --bg:#1A1814; --surface:#23201B; --sunk:#1D1B17; --ink:#E8DFCB; --muted:#A99F8B; --line:#3A352C;
+  --accent:#C9A660; --accent-ink:#1A1814; --accent-soft:#352D1F;
+  --fee:#DDBD7E; --fee-soft:#30291C; --ok:#B8C2A2;
+  --f-display:"Limelight",Georgia,"Times New Roman",serif;
+  --f-body:"Courier Prime","Courier New",Courier,monospace;
+  color-scheme:dark;
+}
+:root.t-noir body{background:radial-gradient(ellipse at 50% 0%, #2A261F 0%, var(--bg) 60%) fixed, var(--bg)}
+:root.t-noir .sk, :root.t-noir .mock{filter:sepia(.55) saturate(.6)}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.shell{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 72px}
+
+/* Header */
+header.top{display:flex;flex-wrap:wrap;gap:20px 32px;justify-content:space-between;align-items:flex-end;padding-bottom:26px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.brand{font:600 12.5px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:800 clamp(34px,5.2vw,56px)/1.02 var(--f-display);letter-spacing:-.025em;margin:12px 0 12px;text-wrap:balance}
+:root.t-noir h1{font-weight:400;letter-spacing:.01em}
+.lede{max-width:60ch;color:var(--muted);margin:0;font-size:17px}
+.themesw{display:flex;flex-direction:column;gap:8px}
+.mini-lbl{font:500 11.5px/1 var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.seg button{border:0;background:none;color:var(--ink);font:600 14px var(--f-body);padding:7px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;align-items:start}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:1px;font-size:14px;min-width:0}
+.toc .prog{font:500 12px var(--f-mono);color:var(--muted);padding:0 10px 12px;letter-spacing:.04em}
+.toc .bar{height:4px;background:var(--sunk);border-radius:4px;margin:0 10px 14px;overflow:hidden}
+.toc .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.toc a{display:flex;gap:10px;align-items:center;color:var(--muted);text-decoration:none;padding:5px 10px;border-radius:8px;line-height:1.3}
+.toc a:hover{background:var(--sunk);color:var(--ink)}
+.toc .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--muted);flex:none}
+.toc a.done{color:var(--ink)}
+.toc a.done .dot{background:var(--accent);border-color:var(--accent)}
+@media (max-width:880px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:18px}
+  .toc{position:static;flex-direction:row;overflow-x:auto;padding-bottom:8px;gap:4px}
+  .toc a{white-space:nowrap;border:1px solid var(--line)}
+  .toc .prog,.toc .bar{display:none}
+}
+
+/* How-to strip */
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.howto div{background:var(--sunk);border-radius:12px;padding:14px 16px;font-size:14.5px;color:var(--muted)}
+.howto b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+
+/* Sections */
+form{margin:0}
+section.sec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:30px 30px 32px;margin-bottom:20px;scroll-margin-top:16px}
+@media (max-width:560px){section.sec{padding:22px 16px 24px}}
+.sec-head{display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:space-between;align-items:flex-start}
+.sec-head .num{font:600 12.5px var(--f-mono);color:var(--accent);display:block;margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase}
+.sec-head h2{font:700 clamp(23px,2.6vw,28px)/1.12 var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+:root.t-noir .sec-head h2{font-weight:400;letter-spacing:.02em}
+.sec-intro{color:var(--muted);max-width:66ch;margin:10px 0 22px}
+.dc{display:inline-flex;gap:9px;align-items:center;font-weight:700;font-size:14px;border:1.5px dashed var(--line);padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;background:var(--surface)}
+.dc input{width:16px;height:16px;accent-color:var(--accent);margin:0}
+.dc:has(:checked){border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
+.sec-body{display:flex;flex-direction:column;gap:26px;transition:opacity .2s}
+.sec.handed .sec-body{opacity:.5}
+.handed-note{display:none;font-size:14px;color:var(--accent);font-weight:700;margin:-8px 0 16px}
+.sec.handed .handed-note{display:block}
+.sub-h{font:700 18px/1.2 var(--f-display);margin:8px 0 -8px;padding-top:18px;border-top:1px solid var(--line)}
+.sub-h .term{font:italic 400 14px var(--f-body)}
+
+/* Questions */
+.q{display:flex;flex-direction:column;gap:9px;min-width:0}
+.qlabel{font-weight:700;font-size:15.5px;line-height:1.35}
+.qlabel .tag{margin-left:6px;vertical-align:2px}
+.qhint{color:var(--muted);font-size:14px;margin-top:-5px;max-width:68ch}
+.term{font-style:italic;color:var(--muted);font-weight:400}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=number],input[type=date],select,textarea{width:100%;min-width:0;font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+textarea{resize:vertical;min-height:88px;line-height:1.5}
+textarea.big{min-height:200px}
+::placeholder{color:var(--muted);opacity:.75}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px 18px}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.pair .q{background:var(--sunk);border-radius:12px;padding:14px}
+.pair .q .qlabel::before{display:block;font:600 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+.pair .q.exact .qlabel::before{content:"Specific"}
+.pair .q.feel .qlabel::before{content:"Feeling"}
+
+/* Option chips and cards */
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;background:var(--bg);font-size:15px;line-height:1.3;user-select:none}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.opt:hover{border-color:var(--muted)}
+.opt:has(:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opt:has(:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.tick{width:17px;height:17px;border:1.5px solid var(--muted);border-radius:5px;flex:none;position:relative;background:var(--surface)}
+.opt.radio .tick{border-radius:50%}
+.opt:has(:checked) .tick{background:var(--accent);border-color:var(--accent)}
+.opt:has(:checked) .tick::after{content:"";position:absolute;left:5px;top:1.5px;width:4px;height:8px;border:solid var(--accent-ink);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.opt.radio:has(:checked) .tick::after{left:4px;top:4px;width:6px;height:6px;border:0;border-radius:50%;background:var(--accent-ink);transform:none}
+.opt .tag{margin-left:2px}
+.opts.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(140px,42vw),1fr));gap:12px}
+.opt.card{flex-direction:column;align-items:stretch;border-radius:12px;padding:10px 10px 12px;gap:8px}
+.opt.card .ot{display:flex;gap:8px;align-items:flex-start;font-weight:700;font-size:14.5px;padding:0 2px}
+.opt.card small{color:var(--muted);font-size:13px;line-height:1.4;padding:0 2px}
+.opt.card .tag{align-self:flex-start;margin:0 2px}
+.opts.list{flex-direction:column;align-items:stretch}
+.opt.line{border-radius:10px;align-items:flex-start;padding:12px 14px}
+.opt.line .tick{margin-top:2px}
+.tag{display:inline-block;font:600 10.5px/1 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:4px 7px;border-radius:999px;white-space:nowrap}
+.tag.fee{background:var(--fee-soft);color:var(--fee)}
+.tag.inc{background:var(--sunk);color:var(--ok);border:1px solid var(--line)}
+
+/* Sketches */
+.sk{display:block;width:100%;height:auto;color:var(--ink);border-radius:8px}
+.sk .f{fill:var(--sunk);stroke:var(--line)}
+.sk .l{fill:currentColor;opacity:.16}
+.sk .k{fill:currentColor;opacity:.72}
+.sk .a{fill:var(--accent)}
+.sk .w{fill:var(--surface)}
+.sk .o{fill:none;stroke:currentColor;opacity:.55;stroke-dasharray:3 2}
+.sk .s{fill:none;stroke:var(--muted);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.sk .ic{fill:none;stroke:currentColor;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+
+/* Theme preview mocks (fixed illustration colors, each with its own background) */
+.mock{display:flex;flex-direction:column;gap:5px;height:96px;border-radius:8px;padding:9px;background:var(--mb);color:var(--mf);border:1px solid var(--line);overflow:hidden}
+.mock .m-nav{height:7px;border-radius:3px;background:var(--ma);width:100%}
+.mock .m-h{font:400 22px/1 var(--mfont);color:var(--mf)}
+.mock .m-l{height:5px;border-radius:3px;background:var(--mf);opacity:.35;width:85%}
+.mock .m-l.s{width:60%}
+.mock .m-b{height:12px;width:44px;border-radius:4px;background:var(--ma);margin-top:auto}
+.mock.custom{background:repeating-linear-gradient(135deg,var(--sunk) 0 10px,var(--surface) 10px 20px);align-items:center;justify-content:center;color:var(--muted);font-size:13px;font-weight:700;text-align:center}
+
+/* Repeating rows */
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;gap:10px;align-items:center;min-width:0}
+.row.r-sec{grid-template-columns:minmax(150px,1.2fr) minmax(140px,.9fr) minmax(140px,1.3fr) auto}
+.row.r-asset{grid-template-columns:minmax(130px,1fr) minmax(120px,.8fr) minmax(110px,.7fr) minmax(140px,1.3fr)}
+.row.r-font{grid-template-columns:minmax(120px,.9fr) minmax(140px,1.1fr) minmax(110px,.6fr) minmax(160px,1.4fr)}
+.row.r-social{grid-template-columns:minmax(100px,.4fr) minmax(0,1.6fr)}
+.row.r-size{grid-template-columns:auto minmax(80px,120px) auto minmax(80px,120px) minmax(140px,1fr)}
+.row.r-form{grid-template-columns:repeat(4,minmax(0,1fr)) auto}
+.row .rname{font-weight:700;font-size:14.5px}
+.row .x{font:600 16px var(--f-mono);color:var(--muted)}
+.rows-head{display:grid;gap:10px;font:600 11px/1.2 var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.chk{display:inline-flex;gap:9px;align-items:center;font-weight:700;font-size:14.5px;cursor:pointer}
+.chk input{width:17px;height:17px;accent-color:var(--accent);margin:0;flex:none}
+@media (max-width:720px){
+  .row.r-sec,.row.r-asset,.row.r-font,.row.r-form{grid-template-columns:minmax(0,1fr);padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+  .row.r-size{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);padding:12px;border:1px solid var(--line);border-radius:10px}
+  .row.r-size .rname,.row.r-size .wide{grid-column:1/-1}
+  .rows-head{display:none}
+}
+.block{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--bg);display:flex;flex-direction:column;gap:12px}
+.block-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.block-head b{font:700 16px var(--f-display)}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f > span{font-size:13.5px;font-weight:700;color:var(--muted)}
+.style-hint{font-size:14px;color:var(--muted);background:var(--sunk);border-radius:8px;padding:9px 12px;margin:0}
+.style-hint:empty{display:none}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font:700 15px var(--f-body);padding:11px 18px;border-radius:10px;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{font-size:14px;padding:8px 13px}
+.link{border:0;background:none;color:var(--accent);font:600 14px var(--f-body);cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+.add{align-self:flex-start;border:1.5px dashed var(--line);background:transparent;color:var(--ink);font:700 14px var(--f-body);padding:9px 14px;border-radius:10px;cursor:pointer}
+.add:hover{border-color:var(--accent);color:var(--accent)}
+.add:disabled{opacity:.45;cursor:not-allowed}
+
+/* Resources */
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.res div{border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14.5px;background:var(--bg)}
+.res b{display:block;font:600 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.res a{font-weight:700;margin-right:10px;display:inline-block}
+
+/* Color studio */
+.studio{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:start;background:var(--sunk);border-radius:14px;padding:20px}
+@media (max-width:640px){.studio{grid-template-columns:minmax(0,1fr);justify-items:center}}
+.wheel-wrap{position:relative;width:230px;height:230px;touch-action:none;flex:none}
+#wheel{width:230px;height:230px;border-radius:50%;cursor:crosshair;display:block}
+#wheel-marker{position:absolute;width:20px;height:20px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1.5px rgba(0,0,0,.6),0 2px 6px rgba(0,0,0,.35);transform:translate(-50%,-50%);pointer-events:none}
+.picked{display:flex;flex-direction:column;gap:14px;min-width:0;width:100%}
+.now{display:flex;gap:14px;align-items:center}
+#now-swatch{width:64px;height:64px;border-radius:12px;border:1px solid var(--line);flex:none}
+#now-hex{font:600 22px var(--f-mono);letter-spacing:.02em}
+#now-name{color:var(--muted);font-size:14px}
+.ctl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px;align-items:center;font-size:14px}
+.ctl label{font-weight:700;color:var(--muted)}
+#bright{width:100%;accent-color:var(--accent)}
+.typecode{display:flex;gap:8px;align-items:center}
+.typecode input[type=text]{max-width:130px;font-family:var(--f-mono)}
+.typecode input[type=color]{width:44px;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:3px;cursor:pointer}
+.harm{display:flex;flex-direction:column;gap:6px}
+.harm-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.harm-row > span{font-size:12.5px;color:var(--muted);width:100%}
+.hchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px 4px 4px;font:500 12.5px var(--f-mono);cursor:pointer}
+.hchip i{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.hchip:hover{border-color:var(--accent)}
+.strip{display:flex;height:56px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.strip i{flex:1}
+.strip.empty{align-items:center;justify-content:center;color:var(--muted);font-size:14px;background:var(--sunk)}
+.row.r-pal{grid-template-columns:44px minmax(90px,.7fr) minmax(120px,1fr) minmax(140px,1fr) auto}
+.row.r-pal input[type=color]{width:44px;height:42px;border:1px solid var(--line);border-radius:9px;padding:3px;background:var(--bg);cursor:pointer}
+.row.r-pal .hex{font-family:var(--f-mono)}
+@media (max-width:720px){.row.r-pal{grid-template-columns:44px minmax(0,1fr) auto;padding:10px;border:1px solid var(--line);border-radius:10px}.row.r-pal .wide{grid-column:1/-1}}
+
+/* Font previews */
+.fprev{margin:4px 0 0;padding:10px 14px;border-radius:9px;background:var(--sunk);font-size:22px;line-height:1.25;overflow-wrap:anywhere;grid-column:1/-1}
+.fprev small{display:block;font:12px var(--f-mono);color:var(--muted);margin-bottom:4px}
+
+/* Screen size bars */
+.sizes{display:flex;flex-direction:column;gap:8px}
+.size{display:grid;grid-template-columns:minmax(200px,280px) minmax(0,1fr);gap:14px;align-items:center}
+.size .opt{border-radius:10px}
+.size .bar{height:12px;border-radius:6px;background:var(--line);position:relative}
+.size .bar i{position:absolute;inset:0 auto 0 0;border-radius:6px;background:var(--muted);opacity:.55}
+.size:has(:checked) .bar i{background:var(--accent);opacity:1}
+@media (max-width:560px){.size{grid-template-columns:minmax(0,1fr)}}
+
+/* Button-shape demos */
+.bdemo{display:block;text-align:center;font:700 13px var(--f-body);padding:9px 6px;border:2px solid var(--accent)}
+.bdemo.solid{background:var(--accent);color:var(--accent-ink)}
+.bdemo.outline{background:transparent;color:var(--accent)}
+
+/* Send panel */
+.send{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:30px;margin-top:8px}
+.send h2{font:800 clamp(24px,3vw,32px)/1.1 var(--f-display);margin:0 0 8px}
+:root.t-noir .send h2{font-weight:400}
+.send p{margin:0 0 16px;opacity:.82;max-width:62ch}
+.send .btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.send .btn{border-color:var(--bg);background:var(--bg);color:var(--ink)}
+.send .btn.ghost{background:transparent;color:var(--bg)}
+.send .btn.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+#summary{width:100%;min-height:260px;font:13.5px/1.55 var(--f-mono);background:var(--surface);color:var(--ink);border:0;border-radius:10px;padding:14px}
+.status{font-weight:700;min-height:1.4em;margin:0 0 10px}
+.fees{background:var(--fee-soft);color:var(--fee);border-radius:10px;padding:12px 14px;font-size:14.5px;margin-bottom:14px}
+.fees:empty{display:none}
+.confirm{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center}
+.confirm span{font-weight:700}
+
+/* Glossary */
+details.gloss{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 22px}
+details.gloss summary{cursor:pointer;font:700 18px var(--f-display)}
+.tbl{overflow-x:auto;margin-top:14px}
+.tbl table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+.tbl th,.tbl td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font:600 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tbl td:nth-child(2){font-weight:700}
+
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="brand">Random Remi Designs</div>
+      <h1>Tell us about the website you want</h1>
+      <p class="lede">Answer in your own words. No design or tech knowledge needed. Skip anything you like, and the designer will decide those parts for you.</p>
+    </div>
+    <div class="themesw">
+      <span class="mini-lbl" id="sw-lbl">See this form in</span>
+      <div class="seg" role="group" aria-labelledby="sw-lbl">
+        <button type="button" data-t="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-t="light" aria-pressed="false">Light</button>
+        <button type="button" data-t="dark" aria-pressed="false">Dark</button>
+        <button type="button" data-t="noir" aria-pressed="false">Noir</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" id="toc" aria-label="Sections">
+      <div class="prog" id="prog">0 of 15 answered</div>
+      <div class="bar"><i id="prog-bar"></i></div>
+    </nav>
+
+    <div>
+      <div class="howto">
+        <div><b>Skip freely</b>Every question is optional. Your answers save in this browser as you go.</div>
+        <div><b>Hand it over</b>Tick <em>Designer's choice</em> on any section you want the designer to decide.</div>
+        <div><b>Specific or feeling</b>Name exact things ("Roboto, red") or describe a mood ("safe in a soft cloud"). Or both.</div>
+        <div><b><span class="tag fee">+ fee</span></b>Marks extras. They're quoted separately before any work starts.</div>
+      </div>
+
+      <form id="form" autocomplete="on" novalidate>
+
+<!-- 1 -->
+<section class="sec" id="s1" data-title="1. About you and your project">
+  <div class="sec-head"><div><span class="num">Section 1</span><h2>About you and your project</h2></div></div>
+  <p class="sec-intro">The basics, so we know who we're building for and why.</p>
+  <div class="sec-body">
+    <div class="grid">
+      <div class="q" data-label="Your name"><input type="text" id="a-name" autocomplete="name"></div>
+      <div class="q" data-label="Business, brand or website name"><input type="text" id="a-biz" autocomplete="organization"></div>
+      <div class="q" data-label="Email"><input type="email" id="a-email" autocomplete="email"></div>
+      <div class="q" data-label="Phone"><input type="tel" id="a-phone" autocomplete="tel"></div>
+    </div>
+    <div class="q" data-label="Best way and time to reach you"><input type="text" id="a-reach" placeholder="e.g. Text me, weekday mornings"></div>
+    <div class="q" data-label="What is the website for?" data-hint="Tick all that apply.">
+      <div class="opts" data-opts="purpose"></div>
+      <textarea id="a-purpose" data-sub="Tell us more" rows="3" placeholder="Tell us more in your own words"></textarea>
+    </div>
+    <div class="q" data-label="Who is it for?" data-hint="Describe your ideal visitor: age, interests, what they need from you."><textarea id="a-audience" rows="3"></textarea></div>
+    <div class="q" data-label="The ONE thing you most want visitors to do" data-hint="e.g. call you, buy something, book a session, sign up, read your story"><input type="text" id="a-goal"></div>
+    <div class="q" data-label="Do you have a website now?" data-hint="If yes, add its address and what you like or dislike about it."><textarea id="a-current" rows="2"></textarea></div>
+    <div class="grid">
+      <div class="q" data-label="Is there a date you need it by?" data-hint="And why that date, if there's a reason."><input type="text" id="a-date" placeholder="e.g. Before my shop opens on March 1"></div>
+      <div class="q" data-label="Budget range" data-hint="A rough range is fine."><input type="text" id="a-budget"></div>
+    </div>
+    <div class="q" data-label="Anything else we should know about you or your business"><textarea id="a-else" rows="3"></textarea></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="s2" data-title="2. The overall feel">
+  <div class="sec-head"><div><span class="num">Section 2</span><h2>The overall feel</h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-2"> Designer's choice</label></div>
+  <p class="sec-intro">The big picture. This guides every choice the designer makes later.</p>
+  <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Quick picks: how should visitors feel?" data-hint="Tick any that fit.">
+      <div class="opts" data-opts="feel"></div>
+    </div>
+    <div class="pair">
+      <div class="q exact" data-label="Exactly what I want" data-hint="Any specific must-haves for the whole site."><textarea id="v-exact" rows="4"></textarea></div>
+      <div class="q feel" data-label="Describe the feeling" data-hint="e.g. like feeling safe in a cloud surrounded by soft lights and gentle music"><textarea id="v-feel" rows="4"></textarea></div>
+    </div>
+    <div class="grid">
+      <div class="q" data-label="Three words that describe your brand"><input type="text" id="v-3yes" placeholder="e.g. warm, honest, handmade"></div>
+      <div class="q" data-label="Three words it should never feel like"><input type="text" id="v-3no" placeholder="e.g. cold, corporate, cluttered"></div>
+    </div>
+    <div class="q" data-label="Websites you love" data-hint="Paste the links and say what you love about each one. Any kind of site counts."><textarea id="v-love" rows="4"></textarea></div>
+    <div class="q" data-label="Websites you dislike" data-hint="Links and what puts you off."><textarea id="v-hate" rows="3"></textarea></div>
+    <div class="grid">
+      <div class="q" data-label="Anything you never want to see" data-hint="A color, a style, a type of picture."><textarea id="v-never" rows="2"></textarea></div>
+      <div class="q" data-label="Your competitors" data-hint="Should you look similar to them, or stand apart?"><textarea id="v-comp" rows="2"></textarea></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="s3" data-title="3. Colors">
+  <div class="sec-head"><div><span class="num">Section 3</span><h2>Colors</h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-3"> Designer's choice</label></div>
+  <p class="sec-intro">Pick 3 to 5 colors you love together. Every screen color has a code, called a <b>hex code</b>, like #C9431C. The code tells the designer exactly which shade you mean.</p>
+  <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+  <div class="sec-body">
+    <div class="studio">
+      <div class="wheel-wrap" id="wheel-wrap">
+        <canvas id="wheel" width="230" height="230" aria-label="Color wheel. Click or drag to pick a color." role="img"></canvas>
+        <span id="wheel-marker"></span>
+      </div>
+      <div class="picked">
+        <div class="now">
+          <span id="now-swatch"></span>
+          <div><div id="now-hex">#C9431C</div><div id="now-name">Dark orange</div></div>
+        </div>
+        <div class="ctl">
+          <label for="bright">Brightness</label><input type="range" id="bright" min="5" max="100" value="80" data-nosave>
+          <label for="typed">Type a code</label>
+          <div class="typecode"><input type="text" id="typed" placeholder="#RRGGBB" maxlength="7" data-nosave><input type="color" id="native" aria-label="Pick with your device's color picker" data-nosave></div>
+        </div>
+        <div class="harm" id="harm"></div>
+        <div><button type="button" class="btn accent sm" id="add-color">Add to my palette</button> <span class="qhint" id="pal-count"></span></div>
+      </div>
+    </div>
+    <div class="q" data-label="Your palette" data-hint="Change a color by clicking its square, edit the code, and tell us where each one should go.">
+      <div class="strip empty" id="strip">Your colors will appear here</div>
+      <div class="rows" id="palette"></div>
+    </div>
+    <div class="pair">
+      <div class="q feel" data-label="Describe the feeling of your colors" data-hint="e.g. sunset over the ocean, an old library, a neon city at night"><textarea id="c-feel" rows="3"></textarea></div>
+      <div class="q exact" data-label="Brand colors you already use" data-hint="From a logo, shop sign or business cards. Codes if you have them."><textarea id="c-brand" rows="3"></textarea></div>
+    </div>
+    <div class="q" data-label="Colors to avoid"><input type="text" id="c-avoid"></div>
+    <p class="qhint">Prefer another tool? <a href="https://color.adobe.com" target="_blank" rel="noopener">Adobe Color</a> and <a href="https://coolors.co" target="_blank" rel="noopener">Coolors</a> are free. Copy the codes into your palette above.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="s4" data-title="4. Themes">
+  <div class="sec-head"><div><span class="num">Section 4</span><h2>Themes <span class="term">(looks visitors can switch between)</span></h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-4"> Designer's choice</label></div>
+  <p class="sec-intro">A <b>theme</b> is a complete look for your site: colors, fonts, pictures and icons together. One theme is included with your site, and you choose which one: light, dark or a custom style. Each extra theme adds a fee and lets visitors switch the whole look with one click. Try the switcher at the top of this page to see it in action.</p>
+  <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Which themes do you want?" data-hint="Your first theme is included. Each extra theme adds a fee.">
+      <div class="opts cards">
+        <label class="opt card"><input type="checkbox" id="th-light" value="Light mode">
+          <span class="mock" style="--mb:#F7F6F2;--mf:#23252B;--ma:#C9431C;--mfont:'Bricolage Grotesque',sans-serif"><span class="m-nav"></span><span class="m-h">Aa</span><span class="m-l"></span><span class="m-l s"></span><span class="m-b"></span></span>
+          <span class="ot"><span class="tick"></span>Light mode</span><small>Light background, dark text.</small></label>
+        <label class="opt card"><input type="checkbox" id="th-dark" value="Dark mode">
+          <span class="mock" style="--mb:#15171C;--mf:#E6E7EB;--ma:#FF7B4F;--mfont:'Bricolage Grotesque',sans-serif"><span class="m-nav"></span><span class="m-h">Aa</span><span class="m-l"></span><span class="m-l s"></span><span class="m-b"></span></span>
+          <span class="ot"><span class="tick"></span>Dark mode</span><small>Dark background, light text. Easier on the eyes at night.</small></label>
+        <label class="opt card"><input type="checkbox" id="th-custom" value="Custom theme(s)">
+          <span class="mock" style="--mb:#2A261F;--mf:#E6DCC6;--ma:#C9A660;--mfont:'Limelight',Georgia,serif"><span class="m-nav"></span><span class="m-h">Noir</span><span class="m-l"></span><span class="m-l s"></span><span class="m-b"></span></span>
+          <span class="ot"><span class="tick"></span>Custom theme(s)</span><small>A full look built around a style, like Noir.</small></label>
+      </div>
+    </div>
+    <div class="q" data-label="Which one is your included theme?" data-hint="Any extra themes beyond this one are quoted separately.">
+      <select id="th-main"><option value="">Choose…</option><option>Light mode</option><option>Dark mode</option><option>One of my custom themes</option><option>Designer's choice</option></select>
+      <p class="qhint" id="th-count" style="margin:0"></p></div>
+    <div class="q" data-label="Your custom themes" data-hint="Example: Noir mode gives your site the feel of an old detective film, with period fonts, vintage-style pictures and icons, and a sepia or blue-tinted grayscale. Any style with a recognizable look works: Goth, Industrial, Hippie, Psychedelic, Fluffy and more.">
+      <div class="rows" id="themes"></div>
+      <button type="button" class="add" id="add-theme">+ Add a custom theme</button>
+    </div>
+    <h3 class="sub-h">How switching works <span class="term">(only if you chose more than one theme)</span></h3>
+    <div class="grid">
+      <div class="q" data-label="Which theme do visitors see first?">
+        <select id="sw-first"><option value="">Choose…</option><option>Light</option><option>Dark</option><option>One of my custom themes</option><option>Match their device</option><option>Designer's choice</option></select></div>
+      <div class="q" data-label="Where should the switch button sit?">
+        <select id="sw-where"><option value="">Choose…</option><option>Top corner</option><option>Inside the menu</option><option>Bottom of the page</option><option>Floating button in a corner</option><option>Designer's choice</option></select></div>
+    </div>
+    <div class="q" data-label="Match the visitor's phone or computer setting (light or dark) automatically?"><div class="opts" data-opts="followDevice"></div></div>
+    <div class="q" data-label="Remember each visitor's choice for next time?"><div class="opts" data-opts="remember"></div></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="s5" data-title="5. Fonts">
+  <div class="sec-head"><div><span class="num">Section 5</span><h2>Fonts <span class="term">(lettering styles)</span></h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-5"> Designer's choice</label></div>
+  <p class="sec-intro">Choose up to <b>3 font families</b>. A family already includes its bold, italic and size versions, and the designer uses those as needed. Type a Google Font name to see a preview. Custom themes can have their own fonts too.</p>
+  <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+  <div class="sec-body">
+    <div class="res">
+      <div><b>Free fonts</b><a href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a><a href="https://www.fontsquirrel.com" target="_blank" rel="noopener">Font Squirrel</a></div>
+      <div><b>Paid or pro fonts</b><a href="https://fonts.adobe.com" target="_blank" rel="noopener">Adobe Fonts</a><span class="qhint">and other font shops. You cover the license.</span></div>
+    </div>
+    <div class="q" data-label="Your fonts">
+      <div class="rows-head row r-font" aria-hidden="true"><span>Used for</span><span>Font name</span><span>Free or paid</span><span>Or describe it</span></div>
+      <div class="rows" id="fonts"></div>
+    </div>
+    <div class="opts list"><label class="opt line"><input type="checkbox" id="f-agree" value="Agrees to license fees for paid fonts" data-fee="1"><span class="tick"></span><span>I agree to pay license fees for any paid fonts I've listed <span class="tag fee">+ fee</span></span></label></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="s6" data-title="6. Pictures, icons and shapes">
+  <div class="sec-head"><div><span class="num">Section 6</span><h2>Pictures, icons and shapes</h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-6"> Designer's choice</label></div>
+  <p class="sec-intro">Free sources come first. Paid and professional options are welcome if you agree to their fees.</p>
+  <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Picture style" data-hint="Tick any."><div class="opts" data-opts="picStyle"></div></div>
+    <div class="q" data-label="Icon style" data-hint="Icons are the small symbols, like a phone for “call” or an envelope for “email”."><div class="opts cards" data-opts="iconStyle"></div></div>
+    <div class="res">
+      <div><b>Free photos</b><a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a><a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a><a href="https://pixabay.com" target="_blank" rel="noopener">Pixabay</a></div>
+      <div><b>Free icons</b><a href="https://fontawesome.com" target="_blank" rel="noopener">Font Awesome</a><a href="https://fonts.google.com/icons" target="_blank" rel="noopener">Material Symbols</a><a href="https://lucide.dev" target="_blank" rel="noopener">Lucide</a></div>
+      <div><b>Free shapes and waves</b><a href="https://haikei.app" target="_blank" rel="noopener">Haikei</a></div>
+    </div>
+    <div class="q" data-label="Paid and pro options" data-hint="Tick any you'd like."><div class="opts list" data-opts="paidPics"></div></div>
+    <div class="pair">
+      <div class="q exact" data-label="Exactly what I want" data-hint="Paste links to specific pictures or icons you like."><textarea id="p-exact" rows="3"></textarea></div>
+      <div class="q feel" data-label="Describe the feeling" data-hint="What should your pictures make people feel?"><textarea id="p-feel" rows="3"></textarea></div>
+    </div>
+    <div class="q" data-label="Pictures or subjects to avoid"><input type="text" id="p-avoid"></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="s7" data-title="7. Your logo and existing materials">
+  <div class="sec-head"><div><span class="num">Section 7</span><h2>Your logo and existing materials</h2></div></div>
+  <p class="sec-intro">Tell us what you already have. Things on paper, signs or products can be turned into digital files.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Your logo"><div class="opts list" data-opts="logo"></div></div>
+    <div class="q" data-label="What you have to share">
+      <div class="rows-head row r-asset" aria-hidden="true"><span>Item</span><span>Digital or physical</span><span>File type</span><span>Notes</span></div>
+      <div class="rows" id="assets"></div>
+    </div>
+    <p class="qhint"><b>Tip:</b> send the largest, best-quality version you have. To digitize a physical item, a phone photo taken straight on, in good light, is a fine start. Send your files along with your answers.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="s8" data-title="8. Layout">
+  <div class="sec-head"><div><span class="num">Section 8</span><h2>Layout <span class="term">(how things are arranged)</span></h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-8"> Designer's choice</label></div>
+  <p class="sec-intro">Pick from the sketches. The orange parts show what each option is about.</p>
+  <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+  <div class="sec-body">
+    <h3 class="sub-h" style="border:0;padding-top:0">The menu bar <span class="term">(designers say “navbar” or “navigation”)</span></h3>
+    <p class="qhint" style="margin:0">The area with links to the parts of your site, like Home, About or Contact. Some people call it the menu, the links or the index.</p>
+    <div class="q" data-label="Where should the menu sit?"><div class="opts cards" data-opts="menuPos"></div></div>
+    <div class="q" data-label="When visitors scroll down, the menu should…"><div class="opts cards" data-opts="menuScroll"></div></div>
+    <h3 class="sub-h">The top banner <span class="term">(designers say “hero”)</span></h3>
+    <div class="q" data-label="What should visitors see first?" data-hint="The big first area on the page. Tick one or more."><div class="opts cards" data-opts="hero"></div></div>
+    <h3 class="sub-h">The bottom strip <span class="term">(designers say “footer”)</span></h3>
+    <div class="q" data-label="What goes at the very bottom of every page?"><div class="opts" data-opts="footer"></div></div>
+    <h3 class="sub-h">Spacing and balance</h3>
+    <div class="q" data-label="How full should the pages feel?"><div class="opts cards" data-opts="spacing"></div></div>
+    <div class="q" data-label="Pictures or words?"><div class="opts" data-opts="weight"></div></div>
+    <h3 class="sub-h">Buttons and movement</h3>
+    <div class="q" data-label="Button shape"><div class="opts cards" data-opts="buttons"></div></div>
+    <div class="q" data-label="How much movement?" data-hint="Designers call this “animation”."><div class="opts cards" data-opts="motion"></div></div>
+    <div class="pair">
+      <div class="q exact" data-label="Exactly what I want for the layout"><textarea id="l-exact" rows="3"></textarea></div>
+      <div class="q feel" data-label="Describe the feeling of moving around the site" data-hint="e.g. like flipping through a magazine, or walking through a quiet gallery"><textarea id="l-feel" rows="3"></textarea></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="s9" data-title="9. Screen sizes">
+  <div class="sec-head"><div><span class="num">Section 9</span><h2>Screen sizes</h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-9"> Designer's choice</label></div>
+  <p class="sec-intro">Your site rearranges itself to fit different screens <span class="term">(designers say “responsive design”)</span>. Sizes are measured in <b>pixels (px)</b> across the screen. The bars show each width against a large 1920px monitor.</p>
+  <p class="handed-note">You've handed this section to the designer, so the 3 included sizes will be used.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Included sizes" data-hint="3 standard sizes, with phone-friendly design built in."><div class="sizes" id="sizes-inc"></div></div>
+    <div class="q" data-label="Extra sizes"><div class="sizes" id="sizes-extra"></div></div>
+    <div class="q" data-label="Custom sizes" data-hint="Up to 3, for a specific screen like a shop kiosk, a TV display or a particular tablet. Enter width × height.">
+      <div class="rows" id="customsizes"></div>
+    </div>
+    <div class="q" data-label="Will most visitors use phones or computers?"><div class="opts" data-opts="devices"></div></div>
+    <div class="q" data-label="Anything that should look or work differently on a phone?"><textarea id="z-phone" rows="2"></textarea></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="s10" data-title="10. Sections, pages and features">
+  <div class="sec-head"><div><span class="num">Section 10</span><h2>Sections, pages and features</h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-10"> Designer's choice</label></div>
+  <p class="sec-intro">Which parts your site needs, and whether they share one long page or each get their own.</p>
+  <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+  <div class="sec-body">
+    <div class="q" data-label="One long page or separate pages?"><div class="opts cards" data-opts="pages"></div></div>
+    <div class="q" data-label="Which sections do you want?" data-hint="Tick the ones you want and say where each lives. Add your own at the bottom.">
+      <div class="rows-head row r-sec" aria-hidden="true"><span>Section</span><span>Where it lives</span><span>Notes</span><span></span></div>
+      <div class="rows" id="secs"></div>
+      <button type="button" class="add" id="add-sec">+ Add a section</button>
+    </div>
+    <div class="q" data-label="Features" data-hint="Each may add a fee. Tick anything you want."><div class="opts" data-opts="features"></div>
+      <input type="text" id="feat-other" data-sub="Other features" placeholder="Other features"></div>
+    <div class="q" data-label="Social media and online profiles to link">
+      <div class="rows" id="socials"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="s11" data-title="11. Forms on your site">
+  <div class="sec-head"><div><span class="num">Section 11</span><h2>Forms on your site</h2></div>
+    <label class="dc"><input type="checkbox" class="dc-box" id="dc-11"> Designer's choice</label></div>
+  <p class="sec-intro">Forms are boxes visitors fill in, like a contact form or a booking request.</p>
+  <p class="handed-note">You've handed this section to the designer, so a simple contact form will be used.</p>
+  <div class="sec-body">
+    <div class="opts list"><label class="opt line"><input type="checkbox" id="fm-none" value="No forms, just show my email and phone"><span class="tick"></span><span>No forms, just show my email and phone</span></label></div>
+    <div class="q" data-label="Your forms">
+      <div class="rows-head row r-form" aria-hidden="true"><span>Form</span><span>Boxes it asks for</span><span>Send answers to</span><span>Message after sending</span><span></span></div>
+      <div class="rows" id="forms"></div>
+      <button type="button" class="add" id="add-form">+ Add a form</button>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="sec" id="s12" data-title="12. Your words">
+  <div class="sec-head"><div><span class="num">Section 12</span><h2>Your words <span class="term">(exact text for each section)</span></h2></div></div>
+  <p class="sec-intro">Write or paste the exact words for your site: your history, mission statement, services, prices, opening hours. We'll use your spelling and wording <b>exactly as written</b>, so please check names, numbers and dates.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Help with words"><div class="opts list" data-opts="wordsHelp"></div></div>
+    <div class="grid">
+      <div class="q" data-label="Main headline or slogan" data-hint="The first words people see."><input type="text" id="w-head"></div>
+      <div class="q" data-label="Words people might search to find you" data-hint="e.g. vegan bakery in Austin"><input type="text" id="w-seo"></div>
+    </div>
+    <div class="q" data-label="Text for each section">
+      <div class="rows" id="words"></div>
+      <button type="button" class="add" id="add-words">+ Add another section of text</button>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="sec" id="s13" data-title="13. Easy for everyone, plus small brand pieces">
+  <div class="sec-head"><div><span class="num">Section 13</span><h2>Easy for everyone, plus small brand pieces</h2></div></div>
+  <p class="sec-intro">Making the site easy for everyone to use <span class="term">(designers say “accessibility”)</span>. Good basics are always included. Tick what matters most to you.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Especially important"><div class="opts" data-opts="access"></div></div>
+    <div class="q" data-label="Browser tab icon" data-hint="The tiny picture beside your site's name on a browser tab. Designers call it a “favicon”."><div class="opts" data-opts="favicon"></div></div>
+    <div class="q" data-label="Link preview picture" data-hint="The picture that shows when someone shares your link in a message or on social media. Designers call it a “social share image”."><div class="opts" data-opts="share"></div></div>
+    <div class="q" data-label="Short description for link previews and Google" data-hint="1 or 2 sentences."><textarea id="b-desc" rows="2"></textarea></div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="sec" id="s14" data-title="14. Behind the scenes">
+  <div class="sec-head"><div><span class="num">Section 14</span><h2>Behind the scenes</h2></div></div>
+  <p class="sec-intro">These don't change how the site looks, but the designer needs to know them.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Web address" data-hint="Designers say “domain”, like yourname.com. If you have one, what is it and where did you buy it? If not, what would you like?"><input type="text" id="t-domain"></div>
+    <div class="q" data-label="Hosting" data-hint="The company that keeps your site online. Which one, if any?"><input type="text" id="t-host"></div>
+    <div class="q" data-label="After launch, who will update the site?"><div class="opts" data-opts="updater"></div></div>
+    <div class="q" data-label="How often will things change?"><div class="opts" data-opts="freq"></div></div>
+    <div class="q" data-label="Will the site collect visitor information?" data-hint="Forms, sign-ups or sales all count."><div class="opts" data-opts="collect"></div></div>
+    <div class="q" data-label="Legal pages" data-hint="Usually needed if your site collects any visitor information."><div class="opts" data-opts="legal"></div></div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="sec" id="s15" data-title="15. Sign-off and fee agreement">
+  <div class="sec-head"><div><span class="num">Section 15</span><h2>Sign-off and fee agreement</h2></div></div>
+  <p class="sec-intro">Please read and tick each line, then sign.</p>
+  <div class="sec-body">
+    <div class="q" data-label="Agreements"><div class="opts list" data-opts="agree"></div></div>
+    <div class="grid">
+      <div class="q" data-label="Name"><input type="text" id="g-name"></div>
+      <div class="q" data-label="Signature" data-hint="Typing your name is fine."><input type="text" id="g-sign"></div>
+      <div class="q" data-label="Date"><input type="date" id="g-date"></div>
+    </div>
+  </div>
+</section>
+      </form>
+
+      <section class="send" id="send" aria-labelledby="send-h">
+        <h2 id="send-h">Send your answers</h2>
+        <p>Download your answers as a file and send it to Random Remi Designs along with any logo or photo files. You can also copy them into an email.</p>
+        <div class="fees" id="fees"></div>
+        <div class="btns">
+          <button type="button" class="btn accent" id="btn-dl" hidden>Download my answers</button>
+          <button type="button" class="btn" id="btn-copy">Copy my answers</button>
+          <button type="button" class="btn ghost" id="btn-show">Show my answers</button>
+          <span class="confirm" id="reset-wrap"><button type="button" class="btn ghost" id="btn-reset">Clear all answers</button></span>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <textarea id="summary" readonly hidden data-nosave aria-label="Your answers"></textarea>
+      </section>
+
+      <details class="gloss" id="glossary">
+        <summary>Glossary: everyday words and designer words</summary>
+        <div class="tbl"><table><thead><tr><th>You might say</th><th>Designers say</th><th>What it means</th></tr></thead><tbody id="gloss-body"></tbody></table></div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const FEE='<span class="tag fee">+ fee</span>';
+const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- Sketches (120 x 80 wireframes) ---------- */
+const F='<rect class="f" x="2" y="2" width="116" height="76" rx="6"/>';
+const body3='<rect class="l" x="8" y="23" width="104" height="22" rx="2"/><rect class="l" x="8" y="50" width="49" height="22" rx="2"/><rect class="l" x="63" y="50" width="49" height="22" rx="2"/>';
+const lines='<rect class="l" x="8" y="23" width="96" height="9" rx="2"/><rect class="l" x="8" y="36" width="96" height="9" rx="2"/><rect class="l" x="8" y="49" width="96" height="9" rx="2"/><rect class="l" x="8" y="62" width="96" height="9" rx="2"/>';
+const heart='M60 64 C 32 47, 34 20, 51 22 C 55 22.5, 58.5 26, 60 30 C 61.5 26, 65 22.5, 69 22 C 86 20, 88 47, 60 64 Z';
+const SK={
+  top:F+'<rect class="a" x="8" y="8" width="104" height="10" rx="2"/>'+body3,
+  side:F+'<rect class="a" x="8" y="8" width="25" height="64" rx="2"/><rect class="l" x="38" y="8" width="74" height="28" rx="2"/><rect class="l" x="38" y="41" width="74" height="31" rx="2"/>',
+  burger:F+'<rect class="l" x="8" y="8" width="104" height="10" rx="2"/><rect class="a" x="97" y="9.5" width="12" height="1.8"/><rect class="a" x="97" y="12.2" width="12" height="1.8"/><rect class="a" x="97" y="14.9" width="12" height="1.8"/>'+body3,
+  sticky:F+'<rect class="a" x="8" y="8" width="104" height="10" rx="2"/>'+lines+'<path class="s" d="M111 28 v38 m-3.5 -4.5 l3.5 4.5 l3.5 -4.5"/>',
+  static:F+'<rect class="o" x="8" y="-5" width="104" height="10" rx="2"/><rect class="l" x="8" y="10" width="96" height="9" rx="2"/>'+lines+'<path class="s" d="M111 28 v38 m-3.5 -4.5 l3.5 4.5 l3.5 -4.5"/>',
+  hide:F+'<rect class="a" x="8" y="8" width="104" height="10" rx="2" opacity=".35"/>'+lines+'<path class="s" d="M111 66 v-38 m-3.5 4.5 l3.5 -4.5 l3.5 4.5"/>',
+  hphoto:F+'<rect class="l" x="8" y="8" width="104" height="6" rx="2"/><rect class="a" x="8" y="18" width="104" height="42" rx="3"/><rect class="w" x="30" y="32" width="60" height="6" rx="2"/><rect class="w" x="42" y="42" width="36" height="4" rx="2"/><rect class="l" x="8" y="64" width="104" height="8" rx="2"/>',
+  hslides:F+'<rect class="l" x="8" y="8" width="104" height="6" rx="2"/><rect class="a" x="8" y="18" width="104" height="42" rx="3"/><path class="s" style="stroke:var(--surface)" d="M16 34 l-4 5 l4 5 M104 34 l4 5 l-4 5"/><circle class="w" cx="52" cy="53" r="2.2"/><circle class="w" cx="60" cy="53" r="2.2" opacity=".5"/><circle class="w" cx="68" cy="53" r="2.2" opacity=".5"/><rect class="l" x="8" y="64" width="104" height="8" rx="2"/>',
+  hvideo:F+'<rect class="l" x="8" y="8" width="104" height="6" rx="2"/><rect class="a" x="8" y="18" width="104" height="42" rx="3"/><circle class="w" cx="60" cy="39" r="10" opacity=".9"/><path class="a" d="M57 33.5 L66 39 L57 44.5 Z"/><rect class="l" x="8" y="64" width="104" height="8" rx="2"/>',
+  htext:F+'<rect class="l" x="8" y="8" width="104" height="6" rx="2"/><rect class="k" x="18" y="26" width="84" height="9" rx="2"/><rect class="k" x="30" y="39" width="60" height="6" rx="2" opacity=".45"/><rect class="a" x="46" y="50" width="28" height="9" rx="3"/><rect class="l" x="8" y="64" width="104" height="8" rx="2"/>',
+  hsplit:F+'<rect class="l" x="8" y="8" width="104" height="6" rx="2"/><rect class="a" x="8" y="18" width="50" height="42" rx="3"/><rect class="k" x="64" y="26" width="46" height="7" rx="2"/><rect class="l" x="64" y="37" width="44" height="4" rx="2"/><rect class="l" x="64" y="44" width="38" height="4" rx="2"/><rect class="a" x="64" y="51" width="22" height="7" rx="2" opacity=".6"/><rect class="l" x="8" y="64" width="104" height="8" rx="2"/>',
+  pone:F+'<rect class="w" x="38" y="6" width="44" height="68" rx="3" stroke="currentColor" stroke-opacity=".3"/><rect class="a" x="41" y="9" width="38" height="5" rx="1"/><rect class="l" x="41" y="17" width="38" height="12" rx="1"/><rect class="l" x="41" y="32" width="38" height="12" rx="1"/><rect class="l" x="41" y="47" width="38" height="12" rx="1"/><rect class="l" x="41" y="62" width="38" height="9" rx="1"/><path class="s" d="M88 12 c10 0 10 26 0 26 m3 -3 l-3 3 l3 3"/>',
+  pmulti:F+'<rect class="w" x="8" y="20" width="31" height="42" rx="3" stroke="currentColor" stroke-opacity=".3"/><rect class="w" x="45" y="20" width="31" height="42" rx="3" stroke="currentColor" stroke-opacity=".3"/><rect class="w" x="82" y="20" width="31" height="42" rx="3" stroke="currentColor" stroke-opacity=".3"/><rect class="a" x="11" y="23" width="25" height="4"/><rect class="a" x="48" y="23" width="25" height="4"/><rect class="a" x="85" y="23" width="25" height="4"/><rect class="l" x="11" y="31" width="25" height="27"/><rect class="l" x="48" y="31" width="25" height="27"/><rect class="l" x="85" y="31" width="25" height="27"/>',
+  pmix:F+'<rect class="w" x="10" y="6" width="40" height="68" rx="3" stroke="currentColor" stroke-opacity=".3"/><rect class="a" x="13" y="9" width="34" height="5"/><rect class="l" x="13" y="17" width="34" height="14"/><rect class="l" x="13" y="34" width="34" height="14"/><rect class="l" x="13" y="51" width="34" height="20"/><rect class="w" x="60" y="22" width="24" height="34" rx="3" stroke="currentColor" stroke-opacity=".3"/><rect class="w" x="89" y="22" width="24" height="34" rx="3" stroke="currentColor" stroke-opacity=".3"/><rect class="a" x="62" y="25" width="20" height="3"/><rect class="a" x="91" y="25" width="20" height="3"/><rect class="l" x="62" y="31" width="20" height="22"/><rect class="l" x="91" y="31" width="20" height="22"/>',
+  airy:F+'<rect class="l" x="8" y="8" width="104" height="5" rx="2"/><rect class="k" x="38" y="28" width="44" height="6" rx="2"/><rect class="l" x="46" y="39" width="28" height="4" rx="2"/><rect class="a" x="52" y="52" width="16" height="6" rx="2"/>',
+  bal:F+'<rect class="l" x="8" y="8" width="104" height="6" rx="2"/><rect class="k" x="8" y="20" width="60" height="6" rx="2"/><rect class="l" x="8" y="30" width="50" height="4" rx="2"/><rect class="a" x="74" y="20" width="38" height="26" rx="2"/><rect class="l" x="8" y="52" width="32" height="20" rx="2"/><rect class="l" x="44" y="52" width="32" height="20" rx="2"/><rect class="l" x="80" y="52" width="32" height="20" rx="2"/>',
+  busy:F+'<rect class="l" x="6" y="6" width="108" height="6" rx="1"/>'+[0,1,2,3].map(c=>[0,1,2].map(r=>`<rect class="${(c+r)%3===0?'a':'l'}" x="${6+c*27.5}" y="${16+r*20.5}" width="24" height="17.5" rx="1"/>`).join("")).join(""),
+  ioutline:F+`<path class="ic" d="${heart}"/>`,
+  ifilled:F+`<path class="k" style="opacity:.85" d="${heart}"/>`,
+  ihand:F+`<path class="ic" style="stroke-dasharray:22 3 14 2 30 3" transform="rotate(-6 60 42)" d="${heart}"/><path class="ic" style="stroke-width:1.5;opacity:.5" transform="rotate(4 60 42) translate(1.5 1)" d="${heart}"/>`,
+  icolor:F+`<path class="a" d="${heart}"/><circle class="w" cx="50" cy="31" r="4" opacity=".7"/>`
+};
+const sk=k=>`<svg class="sk" viewBox="0 0 120 80" aria-hidden="true">${SK[k]||""}</svg>`;
+
+/* ---------- Option sets ---------- */
+// item: "Label" or [label, description, sketch, fee]
+const OPTS={
+  purpose:{t:"checkbox",items:["Sell products","Show my work or portfolio","Book clients or appointments","Share information","Collect sign-ups","Build a community","Something else"]},
+  feel:{t:"checkbox",items:["Calm","Trustworthy","Playful","Luxurious","Bold","Cozy","Mysterious","Energetic","Natural","Professional","Dreamy","Edgy","Warm","Clean and simple"]},
+  followDevice:{t:"radio",items:["Yes","No","Designer's choice"]},
+  remember:{t:"radio",items:["Yes","No","Designer's choice"]},
+  picStyle:{t:"checkbox",items:["Real photos","Drawings or illustrations","Photos with people","No people: places, products or objects","Bright and colorful","Soft and muted","Black and white or vintage-toned"]},
+  iconStyle:{t:"checkbox",items:[["Outlined","Thin lines","ioutline"],["Filled","Solid shapes","ifilled"],["Hand-drawn","Playful and sketchy","ihand"],["Colorful","Uses your brand colors","icolor"]]},
+  paidPics:{t:"checkbox",items:[["Paid stock photos","e.g. Adobe Stock, Shutterstock, Getty Images","",1],["Pro icon sets","e.g. Font Awesome Pro","",1],["A professional photographer or custom photoshoot","","",1],["Custom illustrations drawn for me","","",1],["I agree to pay the license or service fees for the paid options I've ticked","","",1]]},
+  logo:{t:"radio",items:[["I have a logo as a digital file"],["My logo is only on paper, a sign, a stamp or a product. Please turn it into a digital file","","",1],["I don't have a logo and would like one designed","","",1],["I don't need a logo, just my name in a nice font"]]},
+  menuPos:{t:"radio",items:[["Across the top","The classic menu bar along the top","top"],["Down the side","Stays on the left or right; your pages show beside it","side"],["Hidden behind a button","The ☰ button opens the menu, on every screen","burger"]]},
+  menuScroll:{t:"radio",items:[["Stays put","Always visible while scrolling. Designers say “sticky”.","sticky"],["Scrolls away","Moves off screen with the page. Designers say “static”.","static"],["Hides, then comes back","Hides while scrolling down, returns when scrolling up","hide"]]},
+  hero:{t:"checkbox",items:[["One large picture with a headline","","hphoto"],["Slideshow of pictures","","hslides"],["Background video","","hvideo"],["Bold headline, no picture","","htext"],["Picture on one side, words on the other","","hsplit"]]},
+  footer:{t:"checkbox",items:["Copyright line","Social media links","Address, phone or email","Opening hours","A small copy of the menu","Newsletter sign-up","Privacy policy and terms links"]},
+  spacing:{t:"radio",items:[["Airy and minimal","Lots of empty space, few things at once","airy"],["Balanced","Somewhere in the middle","bal"],["Full and busy","Lots to look at","busy"]]},
+  weight:{t:"radio",items:["Mostly pictures","An even mix","Mostly words"]},
+  motion:{t:"radio",items:[["None","Everything stays still"],["Subtle","Gentle fades and soft hover effects"],["Lively","Things slide, bounce or appear as you scroll"]]},
+  devices:{t:"radio",items:["Mostly phones","Mostly computers","About even","Not sure"]},
+  pages:{t:"radio",items:[["One long page","Everything scrolls on one page; menu links jump to each part","pone"],["Separate pages","Each part has its own page","pmulti"],["A mix","One main page, plus separate pages for things like log in or contact","pmix"]]},
+  features:{t:"checkbox",fee:1,items:["Online shop with payments","Booking or appointment calendar","Blog I can add posts to","Photo or video gallery","Newsletter or email sign-up","Member login or private area","Search box","Social media feed","Embedded map","Embedded videos","More than one language","Live chat","Downloads (PDF menus, guides)"]},
+  wordsHelp:{t:"checkbox",items:[["I'll send my text separately"],["Please write the text for me","","",1],["Please polish my text: fix spelling and make it read smoothly","","",1]]},
+  access:{t:"checkbox",items:["Larger text, or a button to enlarge it","Strong contrast between text and background","An option to turn off movement","Works well with screen readers","Simple, plain-language layout"]},
+  favicon:{t:"radio",items:["Use my logo","I'll supply one","Designer's choice"]},
+  share:{t:"radio",items:["Use my logo","Use a main photo from the site","I'll supply one","Designer's choice"]},
+  updater:{t:"radio",items:[["Me"],["The designer","","",1],["Not sure"]]},
+  freq:{t:"radio",items:["Rarely","Monthly","Weekly","Daily"]},
+  collect:{t:"radio",items:["Yes","No","Not sure"]},
+  legal:{t:"checkbox",items:["Privacy policy","Cookie notice","Terms and conditions","Returns or refund policy (for shops)","I'll supply the wording","Add placeholder pages; I'll get the wording myself"]},
+  agree:{t:"checkbox",items:[
+    "I understand that anything marked “+ fee” that I ticked or requested will be quoted separately, and I agree to those fees once I approve the quote.",
+    "I understand that paid fonts, stock photos, icons and other licensed materials are charged at their own price, on top of design fees.",
+    "I understand that the number of revision rounds (rounds of changes) included is listed in my quote, and extra rounds may cost more.",
+    "I confirm that I own, or have permission to use, every logo, photo, text and other material I supply.",
+    "Anything I left blank or marked “Designer's choice” is up to the designer."]}
+};
+OPTS.buttons={t:"radio",custom:1,items:[["Square corners","","sq"],["Slightly rounded","","sr"],["Fully rounded","Pill-shaped","pill"],["Outlined","Border only","outline"],["Solid","Filled with color","solid"]]};
+const BTN={sq:'border-radius:0',sr:'border-radius:6px',pill:'border-radius:999px',outline:'border-radius:6px',solid:'border-radius:6px'};
+
+function norm(it){return Array.isArray(it)?{v:it[0],d:it[1]||"",sk:it[2]||"",fee:!!it[3]}:{v:it,d:"",sk:"",fee:false};}
+$$("[data-opts]").forEach(box=>{
+  const key=box.dataset.opts, set=OPTS[key]; if(!set) return;
+  const cards=box.classList.contains("cards"), list=box.classList.contains("list");
+  box.innerHTML=set.items.map((raw,i)=>{
+    const it=norm(raw), fee=it.fee||set.fee, id=`${key}-${i}`;
+    const attrs=`type="${set.t}" id="${id}" name="${key}" value="${esc(it.v)}"${fee?' data-fee="1"':""}`;
+    const cls=`opt ${set.t==="radio"?"radio":""} ${cards?"card":""} ${list?"line":""}`;
+    if(cards){
+      let vis=it.sk?sk(it.sk):"";
+      if(key==="buttons"){const k=it.sk;vis=`<span class="bdemo ${k==="outline"?"outline":"solid"}" style="${BTN[k]}">Book now</span>`;}
+      return `<label class="${cls}"><input ${attrs}>${vis}<span class="ot"><span class="tick"></span>${esc(it.v)}</span>${it.d?`<small>${esc(it.d)}</small>`:""}${fee?FEE:""}</label>`;
+    }
+    return `<label class="${cls}"><input ${attrs}><span class="tick"></span><span>${esc(it.v)}${it.d?` <span class="term">(${esc(it.d)})</span>`:""}${fee?" "+FEE:""}</span></label>`;
+  }).join("");
+});
+
+/* ---------- Labels for each question ---------- */
+$$(".q[data-label]").forEach(q=>{
+  const first=q.firstElementChild, single=q.children.length===1&&first&&/^(INPUT|TEXTAREA|SELECT)$/.test(first.tagName);
+  const lab=document.createElement(single?"label":"div");
+  lab.className="qlabel"; if(single) lab.htmlFor=first.id;
+  lab.textContent=q.dataset.label;
+  q.prepend(lab);
+  if(q.dataset.hint){const h=document.createElement("div");h.className="qhint";h.textContent=q.dataset.hint;lab.after(h);}
+});
+
+/* ---------- Fixed rows ---------- */
+const WHERE='<option value="">Where it lives…</option><option>Part of the main page</option><option>Its own page</option><option>Designer\'s choice</option>';
+const SECS=["Home / welcome","About (your story, mission, team)","Services or what you offer","Prices","Gallery or portfolio","Shop / products","Reviews from real customers","Blog or news","Events or calendar","FAQ (common questions)","Contact","Log in / member area"];
+$("#secs").innerHTML=SECS.map((s,i)=>`<div class="row r-sec"><label class="chk"><input type="checkbox" class="need" id="sec-${i}" value="${esc(s)}">${esc(s)}</label><select id="sec-${i}-w" data-sub="Where" aria-label="Where ${esc(s)} lives">${WHERE}</select><input type="text" id="sec-${i}-n" data-sub="Notes" placeholder="Notes" aria-label="Notes for ${esc(s)}"><span></span></div>`).join("");
+
+const ASSETS=["Logo","Photos (you, team, products, place)","Artwork, drawings or patterns","Videos","Documents to link (menus, price lists)","Other"];
+$("#assets").innerHTML=ASSETS.map((a,i)=>`<div class="row r-asset" data-name="${esc(a)}"><span class="rname">${esc(a)}</span><select id="as-${i}-k" data-sub="Format" aria-label="${esc(a)}: digital or physical"><option value="">Choose…</option><option>Digital file</option><option>Physical item to digitize</option><option>Both</option><option>Don't have this</option></select><input type="text" id="as-${i}-t" data-sub="File type" placeholder="JPG, PNG, PDF…" aria-label="${esc(a)}: file type"><input type="text" id="as-${i}-n" data-sub="Notes" placeholder="Where it goes, colors to keep" aria-label="${esc(a)}: notes"></div>`).join("");
+
+const FONTS=["Headings and titles","Main reading text","Accent: logo, quotes, buttons (optional)"];
+$("#fonts").innerHTML=FONTS.map((f,i)=>`<div class="row r-font" data-name="${esc(f)}"><span class="rname">${esc(f)}</span><input type="text" id="fo-${i}-n" data-sub="Font" placeholder="${["e.g. Playfair Display","e.g. Roboto","e.g. Pacifico"][i]}" aria-label="${esc(f)}: font name"><select id="fo-${i}-p" data-sub="Type" aria-label="${esc(f)}: free or paid"><option value="">Free or paid?</option><option>Free</option><option>Paid</option><option>Not sure</option></select><input type="text" id="fo-${i}-d" data-sub="Described as" placeholder="handwritten, typewriter, bold and modern…" aria-label="${esc(f)}: describe it"><p class="fprev" id="fp-${i}" hidden><small>Preview</small><span></span></p></div>`).join("");
+
+const SOCIAL=["Instagram","Facebook","TikTok","YouTube","LinkedIn","Other"];
+$("#socials").innerHTML=SOCIAL.map((s,i)=>`<div class="row r-social" data-name="${s}"><span class="rname">${s}</span><input type="text" id="so-${i}" placeholder="Link or @name" aria-label="${s} link"></div>`).join("");
+
+$("#customsizes").innerHTML=[1,2,3].map(n=>`<div class="row r-size" data-name="Custom size ${n}" data-fmt="size" data-fee="1"><span class="rname">Size ${n}</span><input type="number" min="1" id="cs-${n}-w" data-sub="Width" placeholder="____" aria-label="Custom size ${n} width in pixels"><span class="x">×</span><input type="number" min="1" id="cs-${n}-h" data-sub="Height" placeholder="____" aria-label="Custom size ${n} height in pixels"><input type="text" class="wide" id="cs-${n}-s" data-sub="Screen" placeholder="What screen is this?" aria-label="Custom size ${n}: what screen"></div>`).join("")+`<div>${FEE}</div>`;
+
+const sizeOpt=(id,label,px,fee)=>`<div class="size"><label class="opt"><input type="checkbox" id="${id}" value="${esc(label)}"${fee?' data-fee="1"':""}><span class="tick"></span><span>${esc(label)}${fee?" "+FEE:""}</span></label><span class="bar" aria-hidden="true"><i style="width:${Math.min(100,px/1920*100)}%"></i></span></div>`;
+$("#sizes-inc").innerHTML=sizeOpt("z-1366","Laptop: 1366px wide",1366)+sizeOpt("z-768","Tablet: 768px wide",768)+sizeOpt("z-640","Phone: 640px wide and smaller",640);
+$("#sizes-extra").innerHTML=sizeOpt("z-1920","Large desktop monitor: 1920px wide",1920,1)+sizeOpt("z-xl","Very large or ultra-wide: wider than 1920px",1920,1)+sizeOpt("z-xs","Very small: smaller than standard phones (e.g. watches)",320,1);
+
+/* ---------- Repeating rows ---------- */
+const STYLES={"Noir":"Old detective film: period fonts, vintage-style pictures and icons, sepia or blue-tinted grayscale.","Goth":"Dark and dramatic: deep blacks, crimson or purple, ornate lettering.","Industrial":"Raw and mechanical: steel grays, rust, bold stencil-like type, metal textures.","Hippie":"Free-spirited 60s and 70s: warm earthy and rainbow tones, rounded groovy lettering, flowers.","Psychedelic":"Mind-bending: swirling saturated colors, melting shapes, wavy lettering.","Fluffy":"Soft and cuddly: pastels, clouds, rounded fonts, puffy shapes.","Cottagecore":"Countryside calm: florals, linen tones, handwritten touches.","Retro 80s":"Neon, grids, chrome lettering and sunsets.","Y2K":"Shiny 2000s: bubble letters, holographic and metallic colors.","Cyberpunk":"Future city at night: neon on black, glitchy tech lettering.","Art Deco":"1920s glamour: gold and black, geometric patterns, tall elegant lettering.","Botanical":"Plants and nature: greens, leaf drawings, organic shapes.","Coastal":"Beach house: sea blues, sand, white, airy and breezy.","Minimal Zen":"Quiet and simple: lots of space, natural neutrals, gentle lines.","Steampunk":"Victorian machines: brass, copper, gears, antique type.","Vaporwave":"Dreamy 90s internet: pink and teal, statues, glitch effects.","Something else":"Describe it in your own words below."};
+const TPL={
+  theme:i=>`<div class="row block" data-kind="theme" data-i="${i}" data-name="Custom theme"><div class="block-head"><b class="rt">Custom theme</b><button type="button" class="link rm">Remove</button></div>
+    <div class="grid"><label class="f"><span>Style</span><select id="th-${i}-s" data-sub="Style" class="style-pick"><option value="">Choose a style…</option>${Object.keys(STYLES).map(s=>`<option>${s}</option>`).join("")}</select></label>
+    <label class="f"><span>Your name for it, or the style in your words</span><input type="text" id="th-${i}-n" data-sub="Name"></label></div>
+    <p class="style-hint"></p>
+    <div class="pair"><label class="f"><span>Exactly what I want (fonts, colors, icons, pictures)</span><textarea id="th-${i}-e" data-sub="Exactly" rows="3"></textarea></label>
+    <label class="f"><span>Describe the feeling</span><textarea id="th-${i}-f" data-sub="Feeling" rows="3"></textarea></label></div></div>`,
+  sec:i=>`<div class="row r-sec" data-kind="sec" data-i="${i}" data-name="Added section"><input type="text" id="sx-${i}-n" data-sub="Section" placeholder="Section name" aria-label="Section name"><select id="sx-${i}-w" data-sub="Where" aria-label="Where it lives">${WHERE}</select><input type="text" id="sx-${i}-o" data-sub="Notes" placeholder="Notes" aria-label="Notes"><button type="button" class="link rm">Remove</button></div>`,
+  form:i=>`<div class="row r-form" data-kind="form" data-i="${i}" data-name="Form"><input type="text" id="fm-${i}-t" data-sub="Type" placeholder="Contact, booking, quote…" aria-label="Form type"><input type="text" id="fm-${i}-f" data-sub="Asks for" placeholder="Name, email, message…" aria-label="Boxes it asks for"><input type="text" id="fm-${i}-to" data-sub="Send to" placeholder="Email address" aria-label="Send answers to"><input type="text" id="fm-${i}-m" data-sub="After sending" placeholder="Thanks! We'll reply within a day." aria-label="Message after sending"><button type="button" class="link rm">Remove</button></div>`,
+  words:i=>`<div class="row block" data-kind="words" data-i="${i}" data-name="Text"><div class="block-head"><label class="f" style="flex:1"><span>Section name</span><input type="text" id="wd-${i}-n" data-sub="Section" placeholder="e.g. About, Mission, Services"></label><button type="button" class="link rm">Remove</button></div>
+    <label class="f"><span>Exact text</span><textarea class="big" id="wd-${i}-t" data-sub="Text" placeholder="Paste or type your words here, exactly as they should appear."></textarea></label></div>`
+};
+const HOST={theme:"#themes",sec:"#secs",form:"#forms",words:"#words"};
+const LIMIT={theme:8,sec:20,form:6,words:30};
+const next={theme:0,sec:0,form:0,words:0};
+function addRow(kind,i){
+  if(i===undefined) i=next[kind];
+  next[kind]=Math.max(next[kind],i+1);
+  $(HOST[kind]).insertAdjacentHTML("beforeend",TPL[kind](i));
+  renumber(); limits();
+  return $(`${HOST[kind]} .row[data-kind="${kind}"][data-i="${i}"]`);
+}
+function renumber(){ $$('#themes .row').forEach((r,n)=>{$(".rt",r).textContent=`Custom theme ${n+1}`;}); }
+function limits(){ for(const k in HOST){const b={theme:"#add-theme",sec:"#add-sec",form:"#add-form",words:"#add-words"}[k];$(b).disabled=$$(`${HOST[k]} .row[data-kind="${k}"]`).length>=LIMIT[k];} }
+document.addEventListener("click",e=>{
+  const rm=e.target.closest(".rm"); if(rm){const r=rm.closest(".row");r.remove();renumber();limits();if(r.dataset.kind==="theme")syncCustom();changed();}
+});
+$("#add-theme").onclick=()=>{const r=addRow("theme");$("#th-custom").checked=true;$("select",r).focus();changed();};
+$("#add-sec").onclick=()=>{$("input",addRow("sec")).focus();changed();};
+$("#add-form").onclick=()=>{$("input",addRow("form")).focus();changed();};
+$("#add-words").onclick=()=>{$("input",addRow("words")).focus();changed();};
+function syncCustom(){ if(!$$("#themes .row").length) return; $("#th-custom").checked=true; }
+document.addEventListener("change",e=>{
+  if(e.target.classList.contains("style-pick")) $(".style-hint",e.target.closest(".row")).textContent=STYLES[e.target.value]||"";
+});
+
+/* Auto-tick a section row when its details are filled in */
+$("#secs").addEventListener("input",e=>{const r=e.target.closest(".row");const need=r&&$("input.need",r);if(need&&e.target!==need&&e.target.value) need.checked=true;});
+/* "No forms" and form rows */
+/* ---------- Font previews ---------- */
+const loadedFonts=new Set();
+function preview(i){
+  const name=$(`#fo-${i}-n`).value.trim(), p=$(`#fp-${i}`);
+  if(!name){p.hidden=true;return;}
+  if(!loadedFonts.has(name)){loadedFonts.add(name);const l=document.createElement("link");l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family="+encodeURIComponent(name).replace(/%20/g,"+")+"&display=swap";document.head.appendChild(l);}
+  const biz=$("#a-biz").value.trim()||"Your Business Name";
+  $("span",p).textContent=`${biz}: the quick brown fox jumps over the lazy dog`;
+  $("span",p).style.fontFamily=`"${name.replace(/"/g,"")}", system-ui, sans-serif`;
+  $("small",p).textContent=`Preview of “${name}” (works for Google Fonts names)`;
+  p.hidden=false;
+}
+let ft={};
+$("#fonts").addEventListener("input",e=>{const m=e.target.id.match(/^fo-(\d)-n$/);if(m){clearTimeout(ft[m[1]]);ft[m[1]]=setTimeout(()=>preview(m[1]),500);}});
+
+/* ---------- Color studio ---------- */
+const hsv2rgb=(h,s,v)=>{const f=n=>{const k=(n+h/60)%6;return v-v*s*Math.max(0,Math.min(k,4-k,1));};return [f(5),f(3),f(1)].map(x=>Math.round(x*255));};
+const rgb2hex=a=>"#"+a.map(x=>x.toString(16).padStart(2,"0")).join("").toUpperCase();
+const hex2rgb=h=>{h=String(h||"").trim().replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");if(!/^[0-9a-f]{6}$/i.test(h))return null;return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16));};
+const rgb2hsv=([r,g,b])=>{r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;let h=0;if(d){if(mx===r)h=((g-b)/d)%6;else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60;if(h<0)h+=360;}return [h,mx?d/mx:0,mx];};
+function colorName(hex){
+  const rgb=hex2rgb(hex); if(!rgb) return "";
+  const [h,s,v]=rgb2hsv(rgb);
+  if(v<.13) return "Black";
+  if(s<.1) return v>.93?"White":v>.65?"Light gray":v>.38?"Gray":"Charcoal";
+  const T=[[12,"red"],[40,"orange"],[66,"yellow"],[95,"lime green"],[155,"green"],[185,"teal"],[205,"sky blue"],[245,"blue"],[270,"indigo"],[295,"purple"],[325,"magenta"],[348,"pink"],[361,"red"]];
+  let n=T.find(t=>h<t[0])[1];
+  if(n==="orange"&&v<.62) n="brown";
+  if(n==="yellow"&&v<.6) n="olive";
+  const pre=v<.42?"dark ":(s<.3&&v>.8)?"pale ":s<.45?"muted ":(v>.85&&s>.75)?"bright ":"";
+  const out=pre+n; return out[0].toUpperCase()+out.slice(1);
+}
+const wheel=$("#wheel"), ctx=wheel.getContext("2d"), marker=$("#wheel-marker");
+let H=14,S=.86,V=.79;
+function drawWheel(){
+  const css=230, dpr=Math.min(2,window.devicePixelRatio||1), N=Math.round(css*dpr);
+  if(wheel.width!==N){wheel.width=N;wheel.height=N;}
+  const r=N/2, img=ctx.createImageData(N,N), d=img.data;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+    const dx=x-r+.5, dy=y-r+.5, dist=Math.sqrt(dx*dx+dy*dy), o=(y*N+x)*4;
+    if(dist>r+1) continue;
+    const h=(Math.atan2(dy,dx)*180/Math.PI+360)%360, s=Math.min(dist/r,1), c=hsv2rgb(h,s,V);
+    d[o]=c[0];d[o+1]=c[1];d[o+2]=c[2];d[o+3]=Math.round(Math.max(0,Math.min(1,r-dist+.5))*255);
+  }
+  ctx.putImageData(img,0,0);
+}
+let raf=0; const redraw=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(drawWheel);};
+function current(){return rgb2hex(hsv2rgb(H,S,V));}
+function showPick(skipTyped){
+  const hex=current(), ang=H*Math.PI/180, R=115;
+  marker.style.left=(R+Math.cos(ang)*S*R)+"px"; marker.style.top=(R+Math.sin(ang)*S*R)+"px"; marker.style.background=hex;
+  $("#now-swatch").style.background=hex; $("#now-hex").textContent=hex; $("#now-name").textContent=colorName(hex);
+  if(!skipTyped) $("#typed").value=hex;
+  $("#native").value=hex.toLowerCase();
+  $("#bright").value=Math.round(V*100);
+  const mk=(dh,dv)=>rgb2hex(hsv2rgb((H+dh+360)%360,S,Math.max(.05,Math.min(1,V+(dv||0)))));
+  const groups=[["Opposite (stands out)",[mk(180)]],["Neighbors (calm together)",[mk(-30),mk(30)]],["Three-way balance",[mk(120),mk(240)]],["Lighter and darker",[mk(0,.25),mk(0,-.3)]]];
+  $("#harm").innerHTML='<div class="mini-lbl">Colors that go with it. Click one to add it.</div>'+groups.map(([t,cs])=>`<div class="harm-row"><span>${t}</span>${cs.map(c=>`<button type="button" class="hchip" data-hex="${c}"><i style="background:${c}"></i>${c}</button>`).join("")}</div>`).join("");
+}
+function pickAt(ev){
+  const b=wheel.getBoundingClientRect(), x=ev.clientX-b.left-b.width/2, y=ev.clientY-b.top-b.height/2, r=b.width/2;
+  H=(Math.atan2(y,x)*180/Math.PI+360)%360; S=Math.min(Math.sqrt(x*x+y*y)/r,1); showPick();
+}
+let dragging=false;
+wheel.addEventListener("pointerdown",e=>{dragging=true;wheel.setPointerCapture(e.pointerId);pickAt(e);});
+wheel.addEventListener("pointermove",e=>{if(dragging)pickAt(e);});
+wheel.addEventListener("pointerup",()=>{dragging=false;});
+$("#bright").addEventListener("input",e=>{V=e.target.value/100;redraw();showPick();});
+function setHex(hex,skipTyped){const rgb=hex2rgb(hex);if(!rgb)return false;[H,S,V]=rgb2hsv(rgb);redraw();showPick(skipTyped);return true;}
+$("#typed").addEventListener("input",e=>{const v=e.target.value.trim();if(/^#?[0-9a-f]{6}$/i.test(v))setHex(v,true);});
+$("#native").addEventListener("input",e=>setHex(e.target.value));
+$("#harm").addEventListener("click",e=>{const c=e.target.closest(".hchip");if(c)addColor(c.dataset.hex);});
+$("#add-color").onclick=()=>addColor(current());
+
+let palette=[];
+const ROLES=["Background","Main text","Buttons and links","Headings","Accents and highlights","Designer's choice"];
+function addColor(hex){
+  if(palette.length>=5){$("#pal-count").textContent="Your palette is full (5 colors). Remove one to add another.";return;}
+  palette.push({hex,name:colorName(hex),role:""}); renderPalette(); changed();
+}
+function renderPalette(){
+  const box=$("#palette");
+  box.innerHTML=palette.map((c,i)=>`<div class="row r-pal" data-name="Color ${i+1}" data-pi="${i}">
+    <input type="color" id="pc-${i}" value="${c.hex.toLowerCase()}" aria-label="Color ${i+1}" data-nosave>
+    <input type="text" class="hex" id="ph-${i}" data-sub="Code" value="${esc(c.hex)}" maxlength="7" aria-label="Color ${i+1} code" data-nosave>
+    <input type="text" class="wide" id="pn-${i}" data-sub="Name" value="${esc(c.name)}" placeholder="Name it" aria-label="Color ${i+1} name" data-nosave>
+    <select class="wide" id="pr-${i}" data-sub="Use for" aria-label="Where color ${i+1} goes" data-nosave><option value="">Where should it go?</option>${ROLES.map(r=>`<option${r===c.role?" selected":""}>${r}</option>`).join("")}</select>
+    <button type="button" class="link prm">Remove</button></div>`).join("");
+  const strip=$("#strip");
+  if(palette.length){strip.classList.remove("empty");strip.innerHTML=palette.map(c=>`<i style="background:${esc(c.hex)}"></i>`).join("");}
+  else{strip.classList.add("empty");strip.textContent="Your colors will appear here";}
+  $("#pal-count").textContent=palette.length?`${palette.length} of 5 colors chosen`:"Pick 3 to 5 colors";
+  $("#add-color").disabled=palette.length>=5;
+}
+$("#palette").addEventListener("input",e=>{
+  const row=e.target.closest(".row"); if(!row) return; const i=+row.dataset.pi, c=palette[i];
+  if(e.target.type==="color"){c.hex=e.target.value.toUpperCase();$(".hex",row).value=c.hex;$$("#strip i")[i].style.background=c.hex;}
+  else if(e.target.classList.contains("hex")){const rgb=hex2rgb(e.target.value);if(rgb){c.hex=rgb2hex(rgb);$('input[type=color]',row).value=c.hex.toLowerCase();$$("#strip i")[i].style.background=c.hex;}}
+  else if(e.target.tagName==="SELECT") c.role=e.target.value;
+  else c.name=e.target.value;
+});
+$("#palette").addEventListener("change",e=>{if(e.target.tagName==="SELECT"){palette[+e.target.closest(".row").dataset.pi].role=e.target.value;changed();}});
+$("#palette").addEventListener("click",e=>{if(e.target.classList.contains("prm")){palette.splice(+e.target.closest(".row").dataset.pi,1);renderPalette();changed();}});
+
+/* ---------- Designer's choice ---------- */
+function syncDC(){ $$(".dc-box").forEach(b=>b.closest("section").classList.toggle("handed",b.checked)); }
+
+/* ---------- Reading answers ---------- */
+function val(el){
+  if(el.type==="checkbox"||el.type==="radio") return el.checked?el.value:"";
+  if(el.type==="color"||el.type==="button"||el.type==="range") return "";
+  return (el.value||"").trim();
+}
+const fields=r=>$$("input,select,textarea",r);
+function readRow(r){
+  const need=$("input.need",r);
+  if(need&&!need.checked) return null;
+  if(r.dataset.fmt==="size"){
+    const w=val($('[data-sub="Width"]',r)),h=val($('[data-sub="Height"]',r)),s=val($('[data-sub="Screen"]',r));
+    if(!w&&!h&&!s) return null;
+    return `${r.dataset.name}: ${w||"?"} × ${h||"?"} px${s?" | "+s:""}`;
+  }
+  if(r.dataset.kind==="words"){
+    const n=val($('[data-sub="Section"]',r)),t=val($('[data-sub="Text"]',r));
+    if(!n&&!t) return null;
+    return `${n||"Untitled section"}:\n${t||"(no text yet)"}\n`;
+  }
+  const parts=[];
+  fields(r).forEach(el=>{if(el===need)return;const v=val(el);if(v)parts.push(el.dataset.sub?`${el.dataset.sub}: ${v}`:v);});
+  if(!parts.length&&!need) return null;
+  const nm=need?need.value:(r.dataset.name||"");
+  return [nm,...parts].filter(Boolean).join(" | ");
+}
+function readQ(q){
+  const out=[];
+  const loose=fields(q).filter(el=>!el.closest(".row"));
+  const picks=loose.filter(el=>(el.type==="checkbox"||el.type==="radio")&&el.checked).map(el=>el.value);
+  if(picks.length) out.push(picks.join(", "));
+  $$(".row",q).forEach(r=>{const t=readRow(r);if(t)out.push(t);});
+  loose.filter(el=>!["checkbox","radio","color","button","range"].includes(el.type)).forEach(el=>{const v=val(el);if(v)out.push(el.dataset.sub?`${el.dataset.sub}: ${v}`:v);});
+  return out;
+}
+const ind=s=>"    "+s.replace(/\n/g,"\n    ");
+function feeItems(){
+  const items=[];
+  $$("#form input[data-fee]").forEach(el=>{if(el.checked)items.push(el.value);});
+  $$("#form .row[data-fee]").forEach(r=>{const t=readRow(r);if(t)items.push(r.dataset.fmt==="size"?t:`${r.dataset.name}: ${$("select",r).value||$("input",r).value||"style to be described"}`);});
+  const x=themeCount()-1;
+  if(x>0) items.push(`Extra theme${x>1?"s":""} beyond the included one: ${x}`);
+  return items;
+}
+function themeCount(){
+  const rows=$$("#themes .row").length;
+  return ($("#th-light").checked?1:0)+($("#th-dark").checked?1:0)+(rows||($("#th-custom").checked?1:0));
+}
+function build(){
+  const L=[], now=new Date();
+  L.push("WEBSITE DESIGN QUESTIONNAIRE","Random Remi Designs","Prepared "+now.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"}),"");
+  const fees=feeItems();
+  if(fees.length){L.push("ADD-ONS REQUESTED (additional fee, quoted separately)","-".repeat(52));fees.forEach(f=>L.push("• "+f));L.push("");}
+  $$("#form section.sec").forEach(sec=>{
+    const title=sec.dataset.title, body=[];
+    const dc=$(".dc-box",sec); if(dc&&dc.checked) body.push("[Designer's choice: the designer decides this section]");
+    $$(".q",sec).forEach(q=>{
+      const a=readQ(q); if(!a.length) return;
+      if(a.length===1&&!a[0].includes("\n")&&a[0].length<90) body.push(`• ${q.dataset.label}: ${a[0]}`);
+      else{body.push(`• ${q.dataset.label}:`);a.forEach(x=>body.push(ind(x)));}
+    });
+    $$(".sec-body > .opts input:checked",sec).forEach(el=>body.push("• "+el.value));
+    L.push(title.toUpperCase(),"-".repeat(Math.min(52,title.length)));
+    L.push(...(body.length?body:["(left blank)"]),"");
+  });
+  return L.join("\n");
+}
+
+/* ---------- Progress ---------- */
+function answered(sec){
+  const dc=$(".dc-box",sec); if(dc&&dc.checked) return true;
+  return fields(sec).some(el=>!el.classList.contains("dc-box")&&!el.closest(".studio")&&val(el));
+}
+const toc=$("#toc");
+$$("#form section.sec").forEach(sec=>{const a=document.createElement("a");a.href="#"+sec.id;a.dataset.for=sec.id;a.innerHTML=`<span class="dot"></span>${esc(sec.dataset.title)}`;toc.appendChild(a);});
+const sa=document.createElement("a");sa.href="#send";sa.innerHTML='<span class="dot"></span>Send your answers';toc.appendChild(sa);
+toc.addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;e.preventDefault();$(a.getAttribute("href")).scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});});
+function progress(){
+  const secs=$$("#form section.sec");let n=0;
+  secs.forEach(s=>{const d=answered(s);if(d)n++;const a=$(`#toc a[data-for="${s.id}"]`);a&&a.classList.toggle("done",d);});
+  $("#prog").textContent=`${n} of ${secs.length} sections answered`;$("#prog-bar").style.width=(n/secs.length*100)+"%";
+  const tc=themeCount();$("#th-count").textContent=tc?`${tc} theme${tc>1?"s":""} chosen: 1 included${tc>1?`, ${tc-1} extra (+ fee)`:""}.`:"";
+  const f=feeItems();$("#fees").textContent=f.length?`Add-ons you've asked for (quoted separately): ${f.length}`:"";
+}
+
+/* ---------- Draft (this browser only) ---------- */
+const KEY="rrd-website-questionnaire-v1";
+function snapshot(){
+  const f={};
+  $$("#form input,#form select,#form textarea").forEach(el=>{if(!el.id||el.hasAttribute("data-nosave"))return;f[el.id]=(el.type==="checkbox"||el.type==="radio")?el.checked:el.value;});
+  const rows={};for(const k in HOST)rows[k]=$$(`${HOST[k]} .row[data-kind="${k}"]`).map(r=>+r.dataset.i);
+  return {f,rows,palette};
+}
+let st=0;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(snapshot()));}catch(e){}}
+function changed(){syncDC();progress();clearTimeout(st);st=setTimeout(save,400);if(!$("#summary").hidden)$("#summary").value=build();}
+function restore(){
+  let d=null;try{d=JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){}
+  if(!d||!d.f) return false;
+  for(const k in HOST)(d.rows&&d.rows[k]||[]).forEach(i=>addRow(k,i));
+  for(const id in d.f){const el=document.getElementById(id);if(!el)continue;if(el.type==="checkbox"||el.type==="radio")el.checked=!!d.f[id];else el.value=d.f[id];}
+  palette=Array.isArray(d.palette)?d.palette.slice(0,5):[];
+  $$(".style-pick").forEach(s=>{$(".style-hint",s.closest(".row")).textContent=STYLES[s.value]||"";});
+  [0,1,2].forEach(preview);
+  return true;
+}
+function defaults(){addRow("form");addRow("words");addRow("words");addRow("words");}
+$("#form").addEventListener("input",changed);
+$("#form").addEventListener("change",changed);
+$("#form").addEventListener("submit",e=>e.preventDefault());
+
+/* ---------- Send panel ---------- */
+const status=m=>{$("#status").textContent=m;};
+function fileName(){const n=($("#a-biz").value||$("#a-name").value||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return `website-questionnaire${n?"-"+n:""}.txt`;}
+$("#btn-show").onclick=()=>{const t=$("#summary");t.value=build();t.hidden=false;$("#btn-show").textContent="Refresh my answers";status("Here's what will be sent. It updates as you change answers.");};
+$("#btn-copy").onclick=()=>{
+  const text=build(), t=$("#summary"); t.value=text; t.hidden=false;
+  const fallback=()=>{t.focus();t.select();status("Your answers are selected below. Press Ctrl+C (or Cmd+C) to copy them.");};
+  try{navigator.clipboard.writeText(text).then(()=>status("Copied. Paste your answers into an email to Random Remi Designs."),fallback);}catch(e){fallback();}
+};
+let downloads=null;
+$("#btn-dl").onclick=async()=>{
+  if(!downloads) return;
+  try{await downloads.save({filename:fileName(),data:build()});status("Downloaded. Send the file to Random Remi Designs with any logo or photo files.");}
+  catch(e){const c=e&&e.code;if(c==="declined")status("Download cancelled.");else if(c==="rate_limited")status("A download is already waiting for your OK.");else{status("Downloading isn't available here. Use Copy my answers instead.");$("#btn-dl").hidden=true;}}
+};
+const blobSave={save:async({filename,data})=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"text/plain;charset=utf-8"}));a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);return {status:"saved"};}};
+try{
+  if(window.claude&&typeof window.claude.use==="function") window.claude.use("downloads").then(d=>{downloads=d;$("#btn-dl").hidden=!d;}).catch(()=>{});
+  else {downloads=blobSave;$("#btn-dl").hidden=false;}
+}catch(e){}
+
+function resetUI(){$("#reset-wrap").innerHTML='<button type="button" class="btn ghost" id="btn-reset">Clear all answers</button>';$("#btn-reset").onclick=askReset;}
+function askReset(){
+  const w=$("#reset-wrap");
+  w.innerHTML='<span>Clear every answer?</span><button type="button" class="btn sm accent" id="rs-yes">Yes, clear everything</button><button type="button" class="btn sm ghost" id="rs-no">Keep my answers</button>';
+  $("#rs-no").onclick=resetUI;
+  $("#rs-yes").onclick=()=>{
+    try{localStorage.removeItem(KEY);}catch(e){}
+    $("#form").reset();$$("#themes,#forms,#words").forEach(b=>b.innerHTML="");$$('#secs .row[data-kind="sec"]').forEach(r=>r.remove());
+    for(const k in next)next[k]=0; palette=[]; renderPalette(); defaults(); $$(".fprev").forEach(p=>p.hidden=true);
+    $$(".style-hint").forEach(h=>h.textContent="");
+    $("#summary").hidden=true; resetUI(); changed(); status("All answers cleared.");
+  };
+}
+$("#btn-reset").onclick=askReset;
+
+/* ---------- Glossary ---------- */
+const G=[["Menu bar, links, index, menu","Navbar / navigation","The area with links to the parts of your site or to other sites"],["Three-line menu button","Hamburger menu","A ☰ button that opens a hidden menu, common on phones"],["Menu that stays on screen","Sticky or fixed navigation","The menu stays visible while you scroll"],["Menu that scrolls away","Static navigation","The menu moves off screen as you scroll"],["Big picture at the top","Hero","The first large area visitors see"],["Top of the page","Header","The strip at the very top, usually with your logo and menu"],["Bottom of the page","Footer","The strip at the very bottom of every page"],["Look, style, mode","Theme","A complete set of colors, fonts, pictures and icons"],["Lettering style","Font, typeface, font family","A style of letters, including its bold and italic versions"],["Color code","Hex code","A code like #C9431C that names one exact color"],["Little symbols","Icons","Small pictures like a phone, envelope or shopping cart"],["Works on phones","Responsive design","The site rearranges itself to fit any screen"],["Screen width","Breakpoint","The screen size where the layout changes"],["Website address","Domain","e.g. yourname.com"],["Where the site lives online","Hosting","A company that keeps your site running on the internet"],["Tab icon","Favicon","The tiny picture on a browser tab"],["Link preview","Social share image (OG image)","The picture shown when someone shares your link"],["Easy for everyone to use","Accessibility","Design that works for people with disabilities or different needs"],["Movement, effects","Animation, transitions","Things that fade, slide or move on the page"],["Mouse-over effect","Hover state","How a button or link changes when the pointer is over it"],["Free to use","Open source, royalty-free","Fonts, images or icons you can use without paying (check each one's rules)"],["Paid to use","Licensed, premium, pro","Materials you pay for the right to use"]];
+$("#gloss-body").innerHTML=G.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("");
+
+/* ---------- Form theme switcher ---------- */
+const TK="rrd-form-theme";
+function setTheme(t){
+  const root=document.documentElement; root.classList.remove("t-light","t-dark","t-noir");
+  if(t!=="auto") root.classList.add("t-"+t);
+  $$(".seg button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.t===t)));
+  try{localStorage.setItem(TK,t);}catch(e){}
+}
+$$(".seg button").forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+let tsaved="auto";try{tsaved=localStorage.getItem(TK)||"auto";}catch(e){}
+setTheme(tsaved);
+
+/* ---------- Boot ---------- */
+if(!restore()) defaults();
+renderPalette(); syncDC(); progress();
+drawWheel(); showPick();
+})();
+</script>
+
+</body>
+</html>
