@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Website Design Questionnaire | Random Remi Designs</title>
+  <meta name="description" content="Tell Random Remi Designs about the website you want. No design or tech knowledge needed.">
+
+  <!-- Fonts: form fonts plus Limelight and Courier Prime for the Noir theme -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Courier+Prime:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Limelight&display=swap">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+
+    <!-- ================= Header ================= -->
+    <header class="top">
+      <div>
+        <div class="brand">Random Remi Designs</div>
+        <h1>Tell us about the website you want</h1>
+        <p class="lede">Answer in your own words. No design or tech knowledge needed. Skip anything you like, and the designer will decide those parts for you.</p>
+      </div>
+
+      <div class="themesw">
+        <span class="mini-lbl" id="sw-lbl">See this form in</span>
+        <div class="seg" role="group" aria-labelledby="sw-lbl">
+          <button type="button" data-t="auto" aria-pressed="true">Auto</button>
+          <button type="button" data-t="light" aria-pressed="false">Light</button>
+          <button type="button" data-t="dark" aria-pressed="false">Dark</button>
+          <button type="button" data-t="noir" aria-pressed="false">Noir</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+
+      <!-- Section index: links are added by script.js from each section's data-title -->
+      <nav class="toc" id="toc" aria-label="Sections">
+        <div class="prog" id="prog">0 of 15 answered</div>
+        <div class="bar"><i id="prog-bar"></i></div>
+      </nav>
+
+      <main>
+        <div class="howto">
+          <div><b>Skip freely</b>Every question is optional. Your answers save in this browser as you go.</div>
+          <div><b>Hand it over</b>Tick <em>Designer's choice</em> on any section you want the designer to decide.</div>
+          <div><b>Specific or feeling</b>Name exact things ("Roboto, red") or describe a mood ("safe in a soft cloud"). Or both.</div>
+          <div><b><span class="tag fee">+ fee</span></b>Marks extras. They're quoted separately before any work starts.</div>
+        </div>
+
+        <!--
+          How questions work
+          - Each <div class="q" data-label="..."> is one question. script.js adds its
+            visible label from data-label and a hint line from data-hint.
+          - <div class="opts" data-opts="key"> is filled with choices from OPTS[key]
+            in script.js. Add classes "cards" (pictures) or "list" (long sentences).
+          - data-sub="..." names a field inside a question in the answer summary.
+          - data-fee="1" marks a choice or row as an extra (+ fee).
+        -->
+        <form id="form" autocomplete="on" novalidate>
+
+          <!-- ================= 1. About you ================= -->
+          <section class="sec" id="s1" data-title="1. About you and your project">
+            <div class="sec-head">
+              <div><span class="num">Section 1</span><h2>About you and your project</h2></div>
+            </div>
+            <p class="sec-intro">The basics, so we know who we're building for and why.</p>
+
+            <div class="sec-body">
+              <div class="grid">
+                <div class="q" data-label="Your name"><input type="text" id="a-name" autocomplete="name"></div>
+                <div class="q" data-label="Business, brand or website name"><input type="text" id="a-biz" autocomplete="organization"></div>
+                <div class="q" data-label="Email"><input type="email" id="a-email" autocomplete="email"></div>
+                <div class="q" data-label="Phone"><input type="tel" id="a-phone" autocomplete="tel"></div>
+              </div>
+
+              <div class="q" data-label="Best way and time to reach you">
+                <input type="text" id="a-reach" placeholder="e.g. Text me, weekday mornings">
+              </div>
+
+              <div class="q" data-label="What is the website for?" data-hint="Tick all that apply.">
+                <div class="opts" data-opts="purpose"></div>
+                <textarea id="a-purpose" data-sub="Tell us more" rows="3" placeholder="Tell us more in your own words"></textarea>
+              </div>
+
+              <div class="q" data-label="Who is it for?" data-hint="Describe your ideal visitor: age, interests, what they need from you.">
+                <textarea id="a-audience" rows="3"></textarea>
+              </div>
+
+              <div class="q" data-label="The ONE thing you most want visitors to do" data-hint="e.g. call you, buy something, book a session, sign up, read your story">
+                <input type="text" id="a-goal">
+              </div>
+
+              <div class="q" data-label="Do you have a website now?" data-hint="If yes, add its address and what you like or dislike about it.">
+                <textarea id="a-current" rows="2"></textarea>
+              </div>
+
+              <div class="grid">
+                <div class="q" data-label="Is there a date you need it by?" data-hint="And why that date, if there's a reason.">
+                  <input type="text" id="a-date" placeholder="e.g. Before my shop opens on March 1">
+                </div>
+                <div class="q" data-label="Budget range" data-hint="A rough range is fine.">
+                  <input type="text" id="a-budget">
+                </div>
+              </div>
+
+              <div class="q" data-label="Anything else we should know about you or your business">
+                <textarea id="a-else" rows="3"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 2. Overall feel ================= -->
+          <section class="sec" id="s2" data-title="2. The overall feel">
+            <div class="sec-head">
+              <div><span class="num">Section 2</span><h2>The overall feel</h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-2"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">The big picture. This guides every choice the designer makes later.</p>
+            <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Quick picks: how should visitors feel?" data-hint="Tick any that fit.">
+                <div class="opts" data-opts="feel"></div>
+              </div>
+
+              <div class="pair">
+                <div class="q exact" data-label="Exactly what I want" data-hint="Any specific must-haves for the whole site.">
+                  <textarea id="v-exact" rows="4"></textarea>
+                </div>
+                <div class="q feel" data-label="Describe the feeling" data-hint="e.g. like feeling safe in a cloud surrounded by soft lights and gentle music">
+                  <textarea id="v-feel" rows="4"></textarea>
+                </div>
+              </div>
+
+              <div class="grid">
+                <div class="q" data-label="Three words that describe your brand">
+                  <input type="text" id="v-3yes" placeholder="e.g. warm, honest, handmade">
+                </div>
+                <div class="q" data-label="Three words it should never feel like">
+                  <input type="text" id="v-3no" placeholder="e.g. cold, corporate, cluttered">
+                </div>
+              </div>
+
+              <div class="q" data-label="Websites you love" data-hint="Paste the links and say what you love about each one. Any kind of site counts.">
+                <textarea id="v-love" rows="4"></textarea>
+              </div>
+
+              <div class="q" data-label="Websites you dislike" data-hint="Links and what puts you off.">
+                <textarea id="v-hate" rows="3"></textarea>
+              </div>
+
+              <div class="grid">
+                <div class="q" data-label="Anything you never want to see" data-hint="A color, a style, a type of picture.">
+                  <textarea id="v-never" rows="2"></textarea>
+                </div>
+                <div class="q" data-label="Your competitors" data-hint="Should you look similar to them, or stand apart?">
+                  <textarea id="v-comp" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 3. Colors ================= -->
+          <section class="sec" id="s3" data-title="3. Colors">
+            <div class="sec-head">
+              <div><span class="num">Section 3</span><h2>Colors</h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-3"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">Pick 3 to 5 colors you love together. Every screen color has a code, called a <b>hex code</b>, like #C9431C. The code tells the designer exactly which shade you mean.</p>
+            <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+
+            <div class="sec-body">
+              <!-- Color wheel: drawn and controlled by script.js -->
+              <div class="studio">
+                <div class="wheel-wrap">
+                  <canvas id="wheel" width="230" height="230" role="img" aria-label="Color wheel. Click or drag to pick a color."></canvas>
+                  <span id="wheel-marker"></span>
+                </div>
+
+                <div class="picked">
+                  <div class="now">
+                    <span id="now-swatch"></span>
+                    <div>
+                      <div id="now-hex">#C9431C</div>
+                      <div id="now-name">Dark orange</div>
+                    </div>
+                  </div>
+
+                  <div class="ctl">
+                    <label for="bright">Brightness</label>
+                    <input type="range" id="bright" min="5" max="100" value="80" data-nosave>
+
+                    <label for="typed">Type a code</label>
+                    <div class="typecode">
+                      <input type="text" id="typed" placeholder="#RRGGBB" maxlength="7" data-nosave>
+                      <input type="color" id="native" aria-label="Pick with your device's color picker" data-nosave>
+                    </div>
+                  </div>
+
+                  <div class="harm" id="harm"></div>
+
+                  <div>
+                    <button type="button" class="btn accent sm" id="add-color">Add to my palette</button>
+                    <span class="qhint" id="pal-count"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="q" data-label="Your palette" data-hint="Change a color by clicking its square, edit the code, and tell us where each one should go.">
+                <div class="strip empty" id="strip">Your colors will appear here</div>
+                <div class="rows" id="palette"></div>
+              </div>
+
+              <div class="pair">
+                <div class="q feel" data-label="Describe the feeling of your colors" data-hint="e.g. sunset over the ocean, an old library, a neon city at night">
+                  <textarea id="c-feel" rows="3"></textarea>
+                </div>
+                <div class="q exact" data-label="Brand colors you already use" data-hint="From a logo, shop sign or business cards. Codes if you have them.">
+                  <textarea id="c-brand" rows="3"></textarea>
+                </div>
+              </div>
+
+              <div class="q" data-label="Colors to avoid"><input type="text" id="c-avoid"></div>
+
+              <p class="qhint">Prefer another tool? <a href="https://color.adobe.com" target="_blank" rel="noopener">Adobe Color</a> and <a href="https://coolors.co" target="_blank" rel="noopener">Coolors</a> are free. Copy the codes into your palette above.</p>
+            </div>
+          </section>
+
+          <!-- ================= 4. Themes ================= -->
+          <section class="sec" id="s4" data-title="4. Themes">
+            <div class="sec-head">
+              <div><span class="num">Section 4</span><h2>Themes <span class="term">(looks visitors can switch between)</span></h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-4"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">A <b>theme</b> is a complete look for your site: colors, fonts, pictures and icons together. One theme is included with your site, and you choose which one: light, dark or a custom style. Each extra theme adds a fee and lets visitors switch the whole look with one click. Try the switcher at the top of this page to see it in action.</p>
+            <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Which themes do you want?" data-hint="Your first theme is included. Each extra theme adds a fee.">
+                <div class="opts cards">
+                  <label class="opt card">
+                    <input type="checkbox" id="th-light" value="Light mode">
+                    <span class="mock mock--light"><span class="m-nav"></span><span class="m-h">Aa</span><span class="m-l"></span><span class="m-l s"></span><span class="m-b"></span></span>
+                    <span class="ot"><span class="tick"></span>Light mode</span>
+                    <small>Light background, dark text.</small>
+                  </label>
+                  <label class="opt card">
+                    <input type="checkbox" id="th-dark" value="Dark mode">
+                    <span class="mock mock--dark"><span class="m-nav"></span><span class="m-h">Aa</span><span class="m-l"></span><span class="m-l s"></span><span class="m-b"></span></span>
+                    <span class="ot"><span class="tick"></span>Dark mode</span>
+                    <small>Dark background, light text. Easier on the eyes at night.</small>
+                  </label>
+                  <label class="opt card">
+                    <input type="checkbox" id="th-custom" value="Custom theme(s)">
+                    <span class="mock mock--noir"><span class="m-nav"></span><span class="m-h">Noir</span><span class="m-l"></span><span class="m-l s"></span><span class="m-b"></span></span>
+                    <span class="ot"><span class="tick"></span>Custom theme(s)</span>
+                    <small>A full look built around a style, like Noir.</small>
+                  </label>
+                </div>
+              </div>
+
+              <div class="q" data-label="Which one is your included theme?" data-hint="Any extra themes beyond this one are quoted separately.">
+                <select id="th-main">
+                  <option value="">Choose…</option>
+                  <option>Light mode</option>
+                  <option>Dark mode</option>
+                  <option>One of my custom themes</option>
+                  <option>Designer's choice</option>
+                </select>
+                <p class="qhint qhint--flat" id="th-count"></p>
+              </div>
+
+              <div class="q" data-label="Your custom themes" data-hint="Example: Noir mode gives your site the feel of an old detective film, with period fonts, vintage-style pictures and icons, and a sepia or blue-tinted grayscale. Any style with a recognizable look works: Goth, Industrial, Hippie, Psychedelic, Fluffy and more.">
+                <div class="rows" id="themes"></div>
+                <button type="button" class="add" id="add-theme">+ Add a custom theme</button>
+              </div>
+
+              <h3 class="sub-h">How switching works <span class="term">(only if you chose more than one theme)</span></h3>
+
+              <div class="grid">
+                <div class="q" data-label="Which theme do visitors see first?">
+                  <select id="sw-first">
+                    <option value="">Choose…</option>
+                    <option>Light</option>
+                    <option>Dark</option>
+                    <option>One of my custom themes</option>
+                    <option>Match their device</option>
+                    <option>Designer's choice</option>
+                  </select>
+                </div>
+                <div class="q" data-label="Where should the switch button sit?">
+                  <select id="sw-where">
+                    <option value="">Choose…</option>
+                    <option>Top corner</option>
+                    <option>Inside the menu</option>
+                    <option>Bottom of the page</option>
+                    <option>Floating button in a corner</option>
+                    <option>Designer's choice</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="q" data-label="Match the visitor's phone or computer setting (light or dark) automatically?">
+                <div class="opts" data-opts="followDevice"></div>
+              </div>
+              <div class="q" data-label="Remember each visitor's choice for next time?">
+                <div class="opts" data-opts="remember"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 5. Fonts ================= -->
+          <section class="sec" id="s5" data-title="5. Fonts">
+            <div class="sec-head">
+              <div><span class="num">Section 5</span><h2>Fonts <span class="term">(lettering styles)</span></h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-5"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">Choose up to <b>3 font families</b>. A family already includes its bold, italic and size versions, and the designer uses those as needed. Type a Google Font name to see a preview. Custom themes can have their own fonts too.</p>
+            <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+
+            <div class="sec-body">
+              <div class="res">
+                <div><b>Free fonts</b><a href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a><a href="https://www.fontsquirrel.com" target="_blank" rel="noopener">Font Squirrel</a></div>
+                <div><b>Paid or pro fonts</b><a href="https://fonts.adobe.com" target="_blank" rel="noopener">Adobe Fonts</a><span class="qhint">and other font shops. You cover the license.</span></div>
+              </div>
+
+              <div class="q" data-label="Your fonts">
+                <div class="rows-head row r-font" aria-hidden="true"><span>Used for</span><span>Font name</span><span>Free or paid</span><span>Or describe it</span></div>
+                <div class="rows" id="fonts"></div>
+              </div>
+
+              <div class="opts list">
+                <label class="opt line">
+                  <input type="checkbox" id="f-agree" value="Agrees to license fees for paid fonts" data-fee="1">
+                  <span class="tick"></span>
+                  <span>I agree to pay license fees for any paid fonts I've listed <span class="tag fee">+ fee</span></span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 6. Pictures, icons, shapes ================= -->
+          <section class="sec" id="s6" data-title="6. Pictures, icons and shapes">
+            <div class="sec-head">
+              <div><span class="num">Section 6</span><h2>Pictures, icons and shapes</h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-6"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">Free sources come first. Paid and professional options are welcome if you agree to their fees.</p>
+            <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Picture style" data-hint="Tick any.">
+                <div class="opts" data-opts="picStyle"></div>
+              </div>
+
+              <div class="q" data-label="Icon style" data-hint="Icons are the small symbols, like a phone for “call” or an envelope for “email”.">
+                <div class="opts cards" data-opts="iconStyle"></div>
+              </div>
+
+              <div class="res">
+                <div><b>Free photos</b><a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a><a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a><a href="https://pixabay.com" target="_blank" rel="noopener">Pixabay</a></div>
+                <div><b>Free icons</b><a href="https://fontawesome.com" target="_blank" rel="noopener">Font Awesome</a><a href="https://fonts.google.com/icons" target="_blank" rel="noopener">Material Symbols</a><a href="https://lucide.dev" target="_blank" rel="noopener">Lucide</a></div>
+                <div><b>Free shapes and waves</b><a href="https://haikei.app" target="_blank" rel="noopener">Haikei</a></div>
+              </div>
+
+              <div class="q" data-label="Paid and pro options" data-hint="Tick any you'd like.">
+                <div class="opts list" data-opts="paidPics"></div>
+              </div>
+
+              <div class="pair">
+                <div class="q exact" data-label="Exactly what I want" data-hint="Paste links to specific pictures or icons you like.">
+                  <textarea id="p-exact" rows="3"></textarea>
+                </div>
+                <div class="q feel" data-label="Describe the feeling" data-hint="What should your pictures make people feel?">
+                  <textarea id="p-feel" rows="3"></textarea>
+                </div>
+              </div>
+
+              <div class="q" data-label="Pictures or subjects to avoid"><input type="text" id="p-avoid"></div>
+            </div>
+          </section>
+
+          <!-- ================= 7. Logo and materials ================= -->
+          <section class="sec" id="s7" data-title="7. Your logo and existing materials">
+            <div class="sec-head">
+              <div><span class="num">Section 7</span><h2>Your logo and existing materials</h2></div>
+            </div>
+            <p class="sec-intro">Tell us what you already have. Things on paper, signs or products can be turned into digital files.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Your logo">
+                <div class="opts list" data-opts="logo"></div>
+              </div>
+
+              <div class="q" data-label="What you have to share">
+                <div class="rows-head row r-asset" aria-hidden="true"><span>Item</span><span>Digital or physical</span><span>File type</span><span>Notes</span></div>
+                <div class="rows" id="assets"></div>
+              </div>
+
+              <p class="qhint"><b>Tip:</b> send the largest, best-quality version you have. To digitize a physical item, a phone photo taken straight on, in good light, is a fine start. Send your files along with your answers.</p>
+            </div>
+          </section>
+
+          <!-- ================= 8. Layout ================= -->
+          <section class="sec" id="s8" data-title="8. Layout">
+            <div class="sec-head">
+              <div><span class="num">Section 8</span><h2>Layout <span class="term">(how things are arranged)</span></h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-8"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">Pick from the sketches. The highlighted parts show what each option is about.</p>
+            <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+
+            <div class="sec-body">
+              <h3 class="sub-h sub-h--first">The menu bar <span class="term">(designers say “navbar” or “navigation”)</span></h3>
+              <p class="qhint qhint--flat">The area with links to the parts of your site, like Home, About or Contact. Some people call it the menu, the links or the index.</p>
+
+              <div class="q" data-label="Where should the menu sit?">
+                <div class="opts cards" data-opts="menuPos"></div>
+              </div>
+              <div class="q" data-label="When visitors scroll down, the menu should…">
+                <div class="opts cards" data-opts="menuScroll"></div>
+              </div>
+
+              <h3 class="sub-h">The top banner <span class="term">(designers say “hero”)</span></h3>
+              <div class="q" data-label="What should visitors see first?" data-hint="The big first area on the page. Tick one or more.">
+                <div class="opts cards" data-opts="hero"></div>
+              </div>
+
+              <h3 class="sub-h">The bottom strip <span class="term">(designers say “footer”)</span></h3>
+              <div class="q" data-label="What goes at the very bottom of every page?">
+                <div class="opts" data-opts="footer"></div>
+              </div>
+
+              <h3 class="sub-h">Spacing and balance</h3>
+              <div class="q" data-label="How full should the pages feel?">
+                <div class="opts cards" data-opts="spacing"></div>
+              </div>
+              <div class="q" data-label="Pictures or words?">
+                <div class="opts" data-opts="weight"></div>
+              </div>
+
+              <h3 class="sub-h">Buttons and movement</h3>
+              <div class="q" data-label="Button shape">
+                <div class="opts cards" data-opts="buttons"></div>
+              </div>
+              <div class="q" data-label="How much movement?" data-hint="Designers call this “animation”.">
+                <div class="opts cards" data-opts="motion"></div>
+              </div>
+
+              <div class="pair">
+                <div class="q exact" data-label="Exactly what I want for the layout">
+                  <textarea id="l-exact" rows="3"></textarea>
+                </div>
+                <div class="q feel" data-label="Describe the feeling of moving around the site" data-hint="e.g. like flipping through a magazine, or walking through a quiet gallery">
+                  <textarea id="l-feel" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 9. Screen sizes ================= -->
+          <section class="sec" id="s9" data-title="9. Screen sizes">
+            <div class="sec-head">
+              <div><span class="num">Section 9</span><h2>Screen sizes</h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-9"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">Your site rearranges itself to fit different screens <span class="term">(designers say “responsive design”)</span>. Sizes are measured in <b>pixels (px)</b> across the screen. The bars show each width against a large 1920px monitor.</p>
+            <p class="handed-note">You've handed this section to the designer, so the 3 included sizes will be used.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Included sizes" data-hint="3 standard sizes, with phone-friendly design built in.">
+                <div class="sizes" id="sizes-inc"></div>
+              </div>
+              <div class="q" data-label="Extra sizes">
+                <div class="sizes" id="sizes-extra"></div>
+              </div>
+              <div class="q" data-label="Custom sizes" data-hint="Up to 3, for a specific screen like a shop kiosk, a TV display or a particular tablet. Enter width × height.">
+                <div class="rows" id="customsizes"></div>
+              </div>
+              <div class="q" data-label="Will most visitors use phones or computers?">
+                <div class="opts" data-opts="devices"></div>
+              </div>
+              <div class="q" data-label="Anything that should look or work differently on a phone?">
+                <textarea id="z-phone" rows="2"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 10. Sections, pages, features ================= -->
+          <section class="sec" id="s10" data-title="10. Sections, pages and features">
+            <div class="sec-head">
+              <div><span class="num">Section 10</span><h2>Sections, pages and features</h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-10"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">Which parts your site needs, and whether they share one long page or each get their own.</p>
+            <p class="handed-note">You've handed this section to the designer. You can still add notes.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="One long page or separate pages?">
+                <div class="opts cards" data-opts="pages"></div>
+              </div>
+
+              <div class="q" data-label="Which sections do you want?" data-hint="Tick the ones you want and say where each lives. Add your own at the bottom.">
+                <div class="rows-head row r-sec" aria-hidden="true"><span>Section</span><span>Where it lives</span><span>Notes</span><span></span></div>
+                <div class="rows" id="secs"></div>
+                <button type="button" class="add" id="add-sec">+ Add a section</button>
+              </div>
+
+              <div class="q" data-label="Features" data-hint="Each may add a fee. Tick anything you want.">
+                <div class="opts" data-opts="features"></div>
+                <input type="text" id="feat-other" data-sub="Other features" placeholder="Other features">
+              </div>
+
+              <div class="q" data-label="Social media and online profiles to link">
+                <div class="rows" id="socials"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 11. Forms ================= -->
+          <section class="sec" id="s11" data-title="11. Forms on your site">
+            <div class="sec-head">
+              <div><span class="num">Section 11</span><h2>Forms on your site</h2></div>
+              <label class="dc"><input type="checkbox" class="dc-box" id="dc-11"> Designer's choice</label>
+            </div>
+            <p class="sec-intro">Forms are boxes visitors fill in, like a contact form or a booking request.</p>
+            <p class="handed-note">You've handed this section to the designer, so a simple contact form will be used.</p>
+
+            <div class="sec-body">
+              <div class="opts list">
+                <label class="opt line">
+                  <input type="checkbox" id="fm-none" value="No forms, just show my email and phone">
+                  <span class="tick"></span>
+                  <span>No forms, just show my email and phone</span>
+                </label>
+              </div>
+
+              <div class="q" data-label="Your forms">
+                <div class="rows-head row r-form" aria-hidden="true"><span>Form</span><span>Boxes it asks for</span><span>Send answers to</span><span>Message after sending</span><span></span></div>
+                <div class="rows" id="forms"></div>
+                <button type="button" class="add" id="add-form">+ Add a form</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 12. Your words ================= -->
+          <section class="sec" id="s12" data-title="12. Your words">
+            <div class="sec-head">
+              <div><span class="num">Section 12</span><h2>Your words <span class="term">(exact text for each section)</span></h2></div>
+            </div>
+            <p class="sec-intro">Write or paste the exact words for your site: your history, mission statement, services, prices, opening hours. We'll use your spelling and wording <b>exactly as written</b>, so please check names, numbers and dates.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Help with words">
+                <div class="opts list" data-opts="wordsHelp"></div>
+              </div>
+
+              <div class="grid">
+                <div class="q" data-label="Main headline or slogan" data-hint="The first words people see.">
+                  <input type="text" id="w-head">
+                </div>
+                <div class="q" data-label="Words people might search to find you" data-hint="e.g. vegan bakery in Austin">
+                  <input type="text" id="w-seo">
+                </div>
+              </div>
+
+              <div class="q" data-label="Text for each section">
+                <div class="rows" id="words"></div>
+                <button type="button" class="add" id="add-words">+ Add another section of text</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 13. Accessibility and brand pieces ================= -->
+          <section class="sec" id="s13" data-title="13. Easy for everyone, plus small brand pieces">
+            <div class="sec-head">
+              <div><span class="num">Section 13</span><h2>Easy for everyone, plus small brand pieces</h2></div>
+            </div>
+            <p class="sec-intro">Making the site easy for everyone to use <span class="term">(designers say “accessibility”)</span>. Good basics are always included. Tick what matters most to you.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Especially important">
+                <div class="opts" data-opts="access"></div>
+              </div>
+              <div class="q" data-label="Browser tab icon" data-hint="The tiny picture beside your site's name on a browser tab. Designers call it a “favicon”.">
+                <div class="opts" data-opts="favicon"></div>
+              </div>
+              <div class="q" data-label="Link preview picture" data-hint="The picture that shows when someone shares your link in a message or on social media. Designers call it a “social share image”.">
+                <div class="opts" data-opts="share"></div>
+              </div>
+              <div class="q" data-label="Short description for link previews and Google" data-hint="1 or 2 sentences.">
+                <textarea id="b-desc" rows="2"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 14. Behind the scenes ================= -->
+          <section class="sec" id="s14" data-title="14. Behind the scenes">
+            <div class="sec-head">
+              <div><span class="num">Section 14</span><h2>Behind the scenes</h2></div>
+            </div>
+            <p class="sec-intro">These don't change how the site looks, but the designer needs to know them.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Web address" data-hint="Designers say “domain”, like yourname.com. If you have one, what is it and where did you buy it? If not, what would you like?">
+                <input type="text" id="t-domain">
+              </div>
+              <div class="q" data-label="Hosting" data-hint="The company that keeps your site online. Which one, if any?">
+                <input type="text" id="t-host">
+              </div>
+              <div class="q" data-label="After launch, who will update the site?">
+                <div class="opts" data-opts="updater"></div>
+              </div>
+              <div class="q" data-label="How often will things change?">
+                <div class="opts" data-opts="freq"></div>
+              </div>
+              <div class="q" data-label="Will the site collect visitor information?" data-hint="Forms, sign-ups or sales all count.">
+                <div class="opts" data-opts="collect"></div>
+              </div>
+              <div class="q" data-label="Legal pages" data-hint="Usually needed if your site collects any visitor information.">
+                <div class="opts" data-opts="legal"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= 15. Sign-off ================= -->
+          <section class="sec" id="s15" data-title="15. Sign-off and fee agreement">
+            <div class="sec-head">
+              <div><span class="num">Section 15</span><h2>Sign-off and fee agreement</h2></div>
+            </div>
+            <p class="sec-intro">Please read and tick each line, then sign.</p>
+
+            <div class="sec-body">
+              <div class="q" data-label="Agreements">
+                <div class="opts list" data-opts="agree"></div>
+              </div>
+              <div class="grid">
+                <div class="q" data-label="Name"><input type="text" id="g-name"></div>
+                <div class="q" data-label="Signature" data-hint="Typing your name is fine."><input type="text" id="g-sign"></div>
+                <div class="q" data-label="Date"><input type="date" id="g-date"></div>
+              </div>
+            </div>
+          </section>
+
+        </form>
+
+        <!-- ================= Send panel ================= -->
+        <section class="send" id="send" aria-labelledby="send-h">
+          <h2 id="send-h">Send your answers</h2>
+          <p>Download your answers as a file and send it to Random Remi Designs along with any logo or photo files. You can also copy them into an email.</p>
+          <div class="fees" id="fees"></div>
+          <div class="btns">
+            <button type="button" class="btn accent" id="btn-dl" hidden>Download my answers</button>
+            <button type="button" class="btn" id="btn-copy">Copy my answers</button>
+            <button type="button" class="btn ghost" id="btn-show">Show my answers</button>
+            <span class="confirm" id="reset-wrap"><button type="button" class="btn ghost" id="btn-reset">Clear all answers</button></span>
+          </div>
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+          <textarea id="summary" readonly hidden data-nosave aria-label="Your answers"></textarea>
+        </section>
+
+        <!-- ================= Glossary (rows come from G in script.js) ================= -->
+        <details class="gloss" id="glossary">
+          <summary>Glossary: everyday words and designer words</summary>
+          <div class="tbl">
+            <table>
+              <thead><tr><th>You might say</th><th>Designers say</th><th>What it means</th></tr></thead>
+              <tbody id="gloss-body"></tbody>
+            </table>
+          </div>
+        </details>
+      </main>
+
+    </div>
+  </div>
+</body>
+</html>

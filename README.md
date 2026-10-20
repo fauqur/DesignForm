@@ -8,6 +8,13 @@ A website design questionnaire for **Random Remi Designs**. Customers with no de
 | --- | --- |
 | `index.html` | The interactive form. It has a color wheel, theme previews (Light, Dark, Noir), layout sketches and a font preview, and it builds a downloadable summary of the answers. |
 | `questionnaire.md` | The same questionnaire as a plain document, for printing or filling in by hand. |
+| `form/` | The editable version of the form, split into `index.html` (content), `style.css` (looks) and `script.js` (behavior). Make changes here. |
+
+### Where to change things in `form/`
+
+- **Wording of questions and sections:** `index.html`. Each question is a `<div class="q" data-label="...">`.
+- **Lists of choices** (features, feelings, styles, screen sizes, glossary and so on): the settings near the top of `script.js` (section 2).
+- **Colors and fonts:** the variables at the top of `style.css` (section 1). Screen-size rules are grouped at the bottom, largest to smallest.
 
 ## How the form works
 
